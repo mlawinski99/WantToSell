@@ -11,6 +11,6 @@ namespace WantToSell.Domain.Shared
 		public Guid Id { get; set; }
 		public DateTime DateCreatedUtc { get; set; }
 		public Guid CreatedBy { get; set; }
-		public DateTime DateModifiedUtc { get; set;}
+		public DateTime? DateModifiedUtc { get; set;}
 	}
 }
