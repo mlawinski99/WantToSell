@@ -31,7 +31,7 @@ namespace WantToSell.Application.Features.Category.Commands
                     if (!validationResult.IsValid)
                         throw new BadRequestException("Invalid request!");
 
-                    var updateModel = _mapper.Map<Domain.Category>(request.model);
+                    var updateModel = await _categoryRepository.GetByIdAsync(request.model.Id);//_mapper.Map<Domain.Category>(request.model);
 
                     await _categoryRepository.UpdateAsync(updateModel);
 
