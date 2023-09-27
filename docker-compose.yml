@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  wanttosell.api:
+    image: ${DOCKER_REGISTRY-}wanttosellapi
+    build:
+      context: .
+      dockerfile: WantToSell.Api/Dockerfile
+  wanttosell.database:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: "WantToSellMSSQL"
+    ports:
+        - "1433:1433"
+    environment:
+            SA_PASSWORD: "S3cur3P@ssW0rd!"
+            ACCEPT_EULA: "Y"
