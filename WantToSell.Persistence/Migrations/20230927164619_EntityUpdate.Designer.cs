@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WantToSell.Persistence.DbContext;
 
@@ -11,9 +12,11 @@ using WantToSell.Persistence.DbContext;
 namespace WantToSell.Persistence.Migrations
 {
     [DbContext(typeof(WantToSellContext))]
-    partial class WantToSellContextModelSnapshot : ModelSnapshot
+    [Migration("20230927164619_EntityUpdate")]
+    partial class EntityUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
