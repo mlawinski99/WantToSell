@@ -26,6 +26,7 @@ namespace WantToSell.Persistence.DbContext
 				if (entry.State == EntityState.Added)
 				{
 					entry.Entity.DateCreatedUtc = DateTime.UtcNow;
+					entry.Entity.DateModifiedUtc = null;
 					//@todo createdby
 				}
 
