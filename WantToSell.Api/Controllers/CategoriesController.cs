@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WantToSell.Application.Features.Category.Commands;
 using WantToSell.Application.Features.Category.Models;
@@ -6,6 +7,7 @@ using WantToSell.Application.Features.Category.Queries;
 
 namespace WantToSell.Api.Controllers
 {
+	[Authorize]
 	[ApiController]
 	[Route("api/categories")]
 	public class CategoriesController : ControllerBase

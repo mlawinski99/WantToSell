@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Identity.Client;
+using WantToSell.Application.Contracts.Identity;
 using WantToSell.Domain;
 using WantToSell.Domain.Shared;
 
@@ -13,9 +14,11 @@ namespace WantToSell.Persistence.DbContext
 {
 	public class WantToSellContext : Microsoft.EntityFrameworkCore.DbContext
 	{
-		public WantToSellContext(DbContextOptions<WantToSellContext> options) : base(options)
+		private readonly IUserService _userService;
+		public WantToSellContext(DbContextOptions<WantToSellContext> options
+			, IUserService userService) : base(options)
 		{
-				
+			this._userService = userService;
 		}
 		
 		public DbSet<Category> Categories { get; set; }
@@ -24,17 +27,16 @@ namespace WantToSell.Persistence.DbContext
 		{
 			foreach (var entry in base.ChangeTracker.Entries<Entity>().Where(x => x.State == EntityState.Added || x.State == EntityState.Modified))
 			{
-				if (entry.State == EntityState.Added)
+				switch (entry.State)
 				{
-					entry.Entity.DateCreatedUtc = DateTime.UtcNow;
-					entry.Entity.DateModifiedUtc = null;
-					//@todo createdby
-					//entry.Entity.CreatedBy = User
-				}
-
-				if (entry.State == EntityState.Modified)
-				{
-					entry.Entity.DateModifiedUtc = DateTime.UtcNow;
+					case EntityState.Added:
+						entry.Entity.DateCreatedUtc = DateTime.UtcNow;
+						entry.Entity.DateModifiedUtc = null;
+						entry.Entity.CreatedBy = _userService.GetCurrentUserId();
+						break;
+					case EntityState.Modified:
+						entry.Entity.DateModifiedUtc = DateTime.UtcNow;
+						break;
 				}
 			}
 

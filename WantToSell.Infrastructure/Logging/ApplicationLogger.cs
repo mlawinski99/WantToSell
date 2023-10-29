@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using WantToSell.Application.Contracts.Logs;
+using WantToSell.Application.Contracts.Logging;
 
-namespace WantToSell.Infrastructure.Logs
+namespace WantToSell.Infrastructure.Logging
 {
 	public class ApplicationLogger<T> : IApplicationLogger<T>
 	{

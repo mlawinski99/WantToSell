@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using WantToSell.Application.Contracts.Logs;
-using WantToSell.Infrastructure.Logs;
+using WantToSell.Application.Contracts.Logging;
+using WantToSell.Infrastructure.Logging;
 
 namespace WantToSell.Infrastructure
 {

@@ -11,5 +11,6 @@ namespace WantToSell.Application.Contracts.Identity
 	{
 		Task<List<UserModel>> GetUsers();
 		Task<UserModel> GetUser(Guid id);
+		Guid GetCurrentUserId();
 	}
 }
