@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.Identity.Client;
 using WantToSell.Domain;
 using WantToSell.Domain.Shared;
 
@@ -28,6 +29,7 @@ namespace WantToSell.Persistence.DbContext
 					entry.Entity.DateCreatedUtc = DateTime.UtcNow;
 					entry.Entity.DateModifiedUtc = null;
 					//@todo createdby
+					//entry.Entity.CreatedBy = User
 				}
 
 				if (entry.State == EntityState.Modified)

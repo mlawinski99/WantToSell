@@ -4,9 +4,9 @@ using WantToSell.Infrastructure.Logs;
 
 namespace WantToSell.Infrastructure
 {
-	public static class InfrastructureServiceRegistration
+	public static class InfrastructureServicesRegistration
 	{
-		public static IServiceCollection AddInfrastructureServiceCollection(
+		public static IServiceCollection AddInfrastructureServicesCollection(
 			this IServiceCollection services)
 		{
 			services.AddScoped(typeof(IApplicationLogger<>), typeof(ApplicationLogger<>));

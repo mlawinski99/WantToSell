@@ -36,6 +36,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WantToSell.Api", "WantToSel
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A6000E85-4C54-4DB5-A377-9C7B8CE8A4C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WantToSell.Identity", "..\WantToSell.Identity\WantToSell.Identity.csproj", "{3E765851-8740-41E8-A4DF-B23F728168D9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1FDD1AB3-23BE-4F1C-8607-A6F02499D319} = {1FDD1AB3-23BE-4F1C-8607-A6F02499D319}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +71,10 @@ Global
 		{A6000E85-4C54-4DB5-A377-9C7B8CE8A4C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6000E85-4C54-4DB5-A377-9C7B8CE8A4C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6000E85-4C54-4DB5-A377-9C7B8CE8A4C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E765851-8740-41E8-A4DF-B23F728168D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E765851-8740-41E8-A4DF-B23F728168D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E765851-8740-41E8-A4DF-B23F728168D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E765851-8740-41E8-A4DF-B23F728168D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +89,7 @@ Global
 		{D1ECDAAD-3A4E-4C7E-9670-424B39C3F46A} = {2F688241-8A46-4230-AFF8-65B4C74C7C7A}
 		{E4037910-D205-47B1-B5A1-7816B372256A} = {2F688241-8A46-4230-AFF8-65B4C74C7C7A}
 		{74E339E0-A570-4318-86DF-9E6453612F6D} = {1E78360F-B7D0-456E-82CC-67972F868113}
+		{3E765851-8740-41E8-A4DF-B23F728168D9} = {2F688241-8A46-4230-AFF8-65B4C74C7C7A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C210E5A0-4CDE-4FBD-8291-C8FC01E1DF63}

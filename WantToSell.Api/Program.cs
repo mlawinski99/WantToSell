@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using WantToSell.Api.Middleware;
 using WantToSell.Application;
+using WantToSell.Identity;
 using WantToSell.Infrastructure;
 using WantToSell.Persistence;
 
@@ -8,9 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddApplicationServiceCollection();
-builder.Services.AddInfrastructureServiceCollection();
-builder.Services.AddPersistenceServiceCollection(builder.Configuration);
+builder.Services.AddApplicationServicesCollection();
+builder.Services.AddInfrastructureServicesCollection();
+builder.Services.AddPersistenceServicesCollection(builder.Configuration);
+builder.Services.AddIdentityServicesRegistration(builder.Configuration);
 
 builder.Services.AddCors(options =>
 {
@@ -37,6 +39,9 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAll");
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

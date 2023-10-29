@@ -8,5 +8,5 @@ public class Item : Entity
 	public string Description { get; set; }
 	public DateTime DateExpiredUtc { get; set; }
 	public string Condition { get; set; }
-	public ApplicationUser ApplicationUser { get; set; }
+	//public ApplicationUser ApplicationUser { get; set; }
 }

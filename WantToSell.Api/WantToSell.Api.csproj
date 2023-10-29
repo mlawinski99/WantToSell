@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\WantToSell.Identity\WantToSell.Identity.csproj" />
     <ProjectReference Include="..\WantToSell.Application\WantToSell.Application.csproj" />
     <ProjectReference Include="..\WantToSell.Infrastructure\WantToSell.Infrastructure.csproj" />
     <ProjectReference Include="..\WantToSell.Persistence\WantToSell.Persistence.csproj" />

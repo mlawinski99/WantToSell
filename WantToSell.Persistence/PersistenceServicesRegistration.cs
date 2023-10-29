@@ -8,9 +8,9 @@ using WantToSell.Persistence.Repositories;
 
 namespace WantToSell.Persistence
 {
-	public static class PersistenceServiceRegistration
+	public static class PersistenceServicesRegistration
 	{
-			public static IServiceCollection AddPersistenceServiceCollection(
+			public static IServiceCollection AddPersistenceServicesCollection(
 				this IServiceCollection services, IConfiguration configuration)
 			{
 				services.AddDbContext<WantToSellContext>(options => 

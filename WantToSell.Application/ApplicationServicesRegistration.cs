@@ -9,9 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace WantToSell.Application
 {
-	public static class ApplicationServiceRegistration
+	public static class ApplicationServicesRegistration
 	{
-		public static IServiceCollection AddApplicationServiceCollection(
+		public static IServiceCollection AddApplicationServicesCollection(
 			this IServiceCollection services)
 		{
 			services.AddAutoMapper(Assembly.GetExecutingAssembly());
