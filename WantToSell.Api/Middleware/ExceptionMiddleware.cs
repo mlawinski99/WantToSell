@@ -1,8 +1,9 @@
 ﻿using System.Net;
-using Azure;
-using System.Text.Json;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using WantToSell.Api.Models;
+using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Exceptions;
 
 namespace WantToSell.Api.Middleware
@@ -33,24 +34,41 @@ namespace WantToSell.Api.Middleware
 		private async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
 		{
 			var response = httpContext.Response;
+			var customProblemDetails = new CustomProblemDetails();
 			response.ContentType = "application/json";
 
 			switch(exception)
 			{
 				case BadRequestException ex:
-					response.StatusCode = (int)HttpStatusCode.BadRequest;
+					customProblemDetails = new CustomProblemDetails
+					{
+						Status = (int)HttpStatusCode.BadRequest,
+						Title = ex.Message,
+						Type = nameof(BadRequestException),
+						Errors = ex.ValidationErrors
+					};
 					break;
 				case NotFoundException ex:
-					response.StatusCode = (int)HttpStatusCode.NotFound;
+					customProblemDetails = new CustomProblemDetails()
+					{
+						Status = (int)HttpStatusCode.NotFound,
+						Title = ex.Message,
+						Type = nameof(NotFoundException),
+					};
 					break;
 				default:
-					response.StatusCode = (int)HttpStatusCode.InternalServerError;
+					customProblemDetails = new CustomProblemDetails()
+					{
+						Status = (int)HttpStatusCode.InternalServerError,
+						Title = exception.Message,
+						Type = nameof(HttpStatusCode.InternalServerError),
+					};
 					break;
 			}
 			
-			var result = JsonSerializer.Serialize(new { message = exception?.Message, stackTrace = exception?.StackTrace });
-			_logger.LogError(exception, result);
-			await response.WriteAsync(result);
+			var result = JsonConvert.SerializeObject(customProblemDetails);
+			_logger.LogError(result);
+			await response.WriteAsJsonAsync(customProblemDetails);
 		}
 	}
 }
