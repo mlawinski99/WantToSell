@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Serilog;
 using WantToSell.Api.Middleware;
 using WantToSell.Application;
 using WantToSell.Identity;
@@ -8,6 +9,11 @@ using WantToSell.Persistence;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Host.UseSerilog((context, loggerConfiguration) => loggerConfiguration
+	.WriteTo.Console()
+	.ReadFrom.Configuration(context.Configuration));
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddApplicationServicesCollection();
@@ -39,6 +45,8 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
+
+app.UseSerilogRequestLogging();
 
 app.UseCors("AllowAll");
 
