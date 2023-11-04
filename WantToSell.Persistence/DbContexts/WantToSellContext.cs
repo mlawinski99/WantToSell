@@ -21,7 +21,10 @@ namespace WantToSell.Persistence.DbContext
 			this._userService = userService;
 		}
 		
+		public DbSet<Address> Addresses { get; set; }
 		public DbSet<Category> Categories { get; set; }
+		public DbSet<Item> Items { get; set; }
+		public DbSet<Subcategory> Subcategories { get; set; }
 
 		public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
 		{
