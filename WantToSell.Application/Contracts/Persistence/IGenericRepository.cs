@@ -1,6 +1,6 @@
 ﻿using WantToSell.Domain.Shared;
 
-namespace WantToSell.Application.Contracts.DataAccess
+namespace WantToSell.Application.Contracts.Persistence
 {
     public interface IGenericRepository<T> where T : Entity
     {

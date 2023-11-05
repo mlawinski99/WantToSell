@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using MediatR;
-using WantToSell.Application.Contracts.DataAccess;
+﻿using MediatR;
 using WantToSell.Application.Contracts.Logging;
+using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
 using WantToSell.Application.Features.Category.Models;
 using WantToSell.Application.Features.Category.Validators;

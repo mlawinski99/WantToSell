@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WantToSell.Application.Contracts.DataAccess;
+using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Domain.Shared;
 using WantToSell.Persistence.DbContext;
 

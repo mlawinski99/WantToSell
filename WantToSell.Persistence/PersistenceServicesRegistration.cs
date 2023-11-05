@@ -2,7 +2,7 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using WantToSell.Application.Contracts.DataAccess;
+using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Persistence.DbContext;
 using WantToSell.Persistence.Repositories;
 
