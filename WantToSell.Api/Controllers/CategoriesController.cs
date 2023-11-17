@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using WantToSell.Application.Features.Category.Commands;
 using WantToSell.Application.Features.Category.Models;
 using WantToSell.Application.Features.Category.Queries;
+using WantToSell.Application.Features.Subcategory.Models;
+using WantToSell.Application.Features.Subcategory.Queries;
 
 namespace WantToSell.Api.Controllers
 {
@@ -19,10 +21,17 @@ namespace WantToSell.Api.Controllers
 			_mediator = mediator;
 		}
 
-		[HttpGet("{id}")]
+		[HttpGet]
 		public async Task<List<CategoryListModel>> GetList()
 		{
 			return await _mediator.Send(new GetCategoryList.Query());
+		}
+
+		[HttpGet("{id}")]
+		public async Task<List<SubcategoryListModel>> GetList(Guid id)
+		{
+			//Get Subcategories for Category by Id
+			return await _mediator.Send(new GetSubcategoryList.Query(id)); 
 		}
 
 		[HttpPost]
@@ -40,7 +49,7 @@ namespace WantToSell.Api.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public async Task<IActionResult> Create(Guid id)
+		public async Task<IActionResult> Delete(Guid id)
 		{
 			await _mediator.Send(new DeleteCategory.Command(id));
 			return NoContent();

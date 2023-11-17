@@ -12,7 +12,7 @@ namespace WantToSell.Persistence.Repositories
 {
 	public class GenericRepository<T> : IGenericRepository<T> where T : Entity
 	{
-		private readonly WantToSellContext _context;
+		protected readonly WantToSellContext _context;
 
 		public GenericRepository(WantToSellContext context)
 		{

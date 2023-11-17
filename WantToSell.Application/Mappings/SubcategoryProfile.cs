@@ -13,9 +13,10 @@ namespace WantToSell.Application.Mappings
 	{
 		public SubcategoryProfile()
 		{
-			CreateMap<Category, SubcategoryListModel>();
-			CreateMap<SubcategoryCreateModel, Category>();
-			CreateMap<SubcategoryUpdateModel, Category>();
+			CreateMap<Subcategory, SubcategoryListModel>()
+				.ForMember(d => d.CategoryName, o => o.MapFrom(s => s.Category.Name)); ;
+			CreateMap<SubcategoryCreateModel, Subcategory>();
+			CreateMap<SubcategoryUpdateModel, Subcategory>();
 		}
 	}
 }

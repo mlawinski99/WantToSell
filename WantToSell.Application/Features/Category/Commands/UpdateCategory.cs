@@ -33,9 +33,9 @@ namespace WantToSell.Application.Features.Category.Commands
                     var validationResult = await validator.ValidateAsync(request.model, cancellationToken);
 
                     if (!validationResult.IsValid)
-                        throw new BadRequestException("Invalid request!");
+	                    throw new BadRequestException("Invalid request!", validationResult);
 
-                    var updateModel = await _categoryRepository.GetByIdAsync(request.model.Id);//_mapper.Map<Domain.Category>(request.model);
+					var updateModel = await _categoryRepository.GetByIdAsync(request.model.Id);
 
                     if (updateModel == null)
 	                    throw new NotFoundException("Category can not be found!");
