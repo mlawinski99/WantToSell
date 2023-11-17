@@ -33,10 +33,10 @@ namespace WantToSell.Api.Controllers
 		}
 
 		[HttpPut]
-		public async Task<IActionResult> Create(CategoryUpdateModel model)
+		public async Task<IActionResult> Update(CategoryUpdateModel model)
 		{
 			await _mediator.Send(new UpdateCategory.Command(model));
-			return Accepted();
+			return NoContent();
 		}
 
 		[HttpDelete("{id}")]
