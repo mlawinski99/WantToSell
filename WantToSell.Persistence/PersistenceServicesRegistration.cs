@@ -18,6 +18,9 @@ namespace WantToSell.Persistence
 
 				services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 				services.AddScoped<ICategoryRepository, CategoryRepository>();
+				services.AddScoped<ISubcategoryRepository, SubcategoryRepository>();
+				services.AddScoped<IAddressRepository, AddressRepository>();
+				services.AddScoped<IItemRepository, ItemRepository>();
 
 				return services;
 			}
