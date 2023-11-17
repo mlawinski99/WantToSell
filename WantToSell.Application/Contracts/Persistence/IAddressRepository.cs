@@ -2,5 +2,5 @@
 
 namespace WantToSell.Application.Contracts.Persistence;
 
-public interface IAdressRepository : IGenericRepository<Address>
+public interface IAddressRepository : IGenericRepository<Address>
 { }
