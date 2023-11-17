@@ -20,7 +20,7 @@ namespace WantToSell.Persistence.Repositories
 		}
 		public async Task<T> GetByIdAsync(Guid id)
 		{
-			return _context.Set<T>().SingleOrDefault(x => x.Id == id); 
+			return _context.Set<T>().AsNoTracking().FirstOrDefault(x => x.Id == id); 
 		}
 
 		public async Task<List<T>> GetListAsync()
