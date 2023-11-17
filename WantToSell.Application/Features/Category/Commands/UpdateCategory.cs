@@ -33,6 +33,9 @@ namespace WantToSell.Application.Features.Category.Commands
 
                     var updateModel = await _categoryRepository.GetByIdAsync(request.model.Id);//_mapper.Map<Domain.Category>(request.model);
 
+                    if (updateModel == null)
+	                    throw new NotFoundException("Category can not be found!");
+
                     await _categoryRepository.UpdateAsync(updateModel);
 
                     return true;
