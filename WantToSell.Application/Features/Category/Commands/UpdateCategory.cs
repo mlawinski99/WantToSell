@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
@@ -15,9 +16,12 @@ namespace WantToSell.Application.Features.Category.Commands
         {
 	        private readonly IApplicationLogger<UpdateCategory> _logger;
 	        private readonly ICategoryRepository _categoryRepository;
-
-            public Handler(ICategoryRepository categoryRepository, IApplicationLogger<UpdateCategory> logger)
+	        private readonly IMapper _mapper;
+            public Handler(ICategoryRepository categoryRepository, 
+	            IApplicationLogger<UpdateCategory> logger,
+	            IMapper mapper)
             {
+	            _mapper = mapper;
 	            _categoryRepository = categoryRepository;
 	            _logger = logger;
             }
@@ -35,6 +39,8 @@ namespace WantToSell.Application.Features.Category.Commands
 
                     if (updateModel == null)
 	                    throw new NotFoundException("Category can not be found!");
+
+	                _mapper.Map(request.model, updateModel);
 
                     await _categoryRepository.UpdateAsync(updateModel);
 
