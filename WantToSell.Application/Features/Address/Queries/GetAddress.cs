@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using WantToSell.Application.Contracts.Identity;
 using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
@@ -9,31 +10,35 @@ namespace WantToSell.Application.Features.Address.Queries
 {
 	public class GetAddress
 	{
-		public record Query(Guid Id, Guid UserId) : IRequest<AddressDetailModel>;
+		public record Query() : IRequest<AddressDetailModel>;
 
 		public class Handler : IRequestHandler<Query, AddressDetailModel>
 		{
 			private readonly IMapper _mapper;
 			private readonly IAddressRepository _addressRepository;
 			private readonly IApplicationLogger<GetAddress> _logger;
+			private readonly IUserService _userService;
 
 			public Handler(IMapper mapper,
 				IAddressRepository addressRepository,
-				IApplicationLogger<GetAddress> logger)
+				IApplicationLogger<GetAddress> logger,
+				IUserService userService)
 			{
 				_mapper = mapper;
 				_addressRepository = addressRepository;
 				_logger = logger;
+				_userService = userService;
 			}
 			public async Task<AddressDetailModel> Handle(Query request, CancellationToken cancellationToken)
 			{
 				try
 				{
-					var result = await _addressRepository.GetByIdAsync(request.Id);
+					var userId = _userService.GetCurrentUserId();
+					var result = await _addressRepository.GetAddressForUser(userId);
 
-					if (result.CreatedBy != request.UserId)
-						throw new BadRequestException("Invalid request!"); 
-
+					if (result == null)
+						return new AddressDetailModel();
+					
 					return _mapper.Map<AddressDetailModel>(result);
 				}
 				catch (Exception ex)

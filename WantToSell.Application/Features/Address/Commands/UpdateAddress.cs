@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
+using WantToSell.Application.Contracts.Identity;
 using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
@@ -14,12 +16,19 @@ namespace WantToSell.Application.Features.Address.Commands
 		public class Handler : IRequestHandler<Command, bool>
 		{
 			private readonly IApplicationLogger<UpdateAddress> _logger;
+			private readonly IUserService _userService;
 			private readonly IAddressRepository _addressRepository;
+			private readonly IMapper _mapper;
 
-			public Handler(IAddressRepository addressRepository, IApplicationLogger<UpdateAddress> logger)
+			public Handler(IAddressRepository addressRepository, 
+				IApplicationLogger<UpdateAddress> logger,
+				IUserService userService,
+				IMapper mapper)
 			{
 				_addressRepository = addressRepository;
 				_logger = logger;
+				_userService = userService;
+				_mapper = mapper;
 			}
 			public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
 			{
@@ -31,15 +40,18 @@ namespace WantToSell.Application.Features.Address.Commands
 					if (!validationResult.IsValid)
 						throw new BadRequestException("Invalid request!");
 
-					var updateModel = await _addressRepository.GetByIdAsync(request.Model.Id);//_mapper.Map<Domain.Category>(request.model);
+					var updateModel = await _addressRepository.GetByIdAsync(request.Model.Id);
 
 					if (updateModel == null)
 						throw new NotFoundException("Address can not be found!");
 
-					//@todo
-					//if (updateModel.CreatedBy != UserId)
-					//	throw BadRequest()
+					var userId = _userService.GetCurrentUserId();
 
+					if (updateModel.CreatedBy != userId)
+						throw new AccessDeniedException();
+
+					_mapper.Map(request.Model, updateModel);
+					
 					await _addressRepository.UpdateAsync(updateModel);
 
 					return true;

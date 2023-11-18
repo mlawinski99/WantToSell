@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using WantToSell.Application.Contracts.Identity;
 using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
@@ -13,11 +14,15 @@ namespace WantToSell.Application.Features.Address.Commands
 		{
 			private readonly IAddressRepository _addressRepository;
 			private readonly IApplicationLogger<DeleteAddress> _logger;
+			private readonly IUserService _userService;
 
-			public Handler(IAddressRepository addressRepository, IApplicationLogger<DeleteAddress> logger)
+			public Handler(IAddressRepository addressRepository, 
+				IApplicationLogger<DeleteAddress> logger,
+				IUserService userService)
 			{
 				_addressRepository = addressRepository;
 				_logger = logger;
+				_userService = userService;
 			}
 			public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
 			{
@@ -28,9 +33,10 @@ namespace WantToSell.Application.Features.Address.Commands
 					if (entity == null)
 						throw new NotFoundException($"Address does not exist!");
 					
-					//@todo
-					//if(entity.CreatedBy != UserId)
-					// return BadRequest
+					var userId = _userService.GetCurrentUserId();
+
+					if (entity.CreatedBy != userId)
+						throw new AccessDeniedException();
 
 					await _addressRepository.DeleteAsync(entity);
 
