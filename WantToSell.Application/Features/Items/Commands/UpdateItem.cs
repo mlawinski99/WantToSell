@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
@@ -19,12 +20,16 @@ namespace WantToSell.Application.Features.Items.Commands
 		public class Handler : IRequestHandler<Command, bool>
 		{
 			private readonly IApplicationLogger<UpdateItem> _logger;
+			private readonly IMapper _mapper;
 			private readonly IItemRepository _itemRepository;
 
-			public Handler(IItemRepository itemRepository, IApplicationLogger<UpdateItem> logger)
+			public Handler(IItemRepository itemRepository, 
+				IApplicationLogger<UpdateItem> logger,
+				IMapper mapper)
 			{
 				_itemRepository = itemRepository;
 				_logger = logger;
+				_mapper = mapper;
 			}
 			public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
 			{
@@ -36,11 +41,16 @@ namespace WantToSell.Application.Features.Items.Commands
 					if (!validationResult.IsValid)
 						throw new BadRequestException("Invalid request!");
 
-					var updateModel = await _itemRepository.GetByIdAsync(request.model.Id);//_mapper.Map<Domain.Category>(request.model);
-
+					var updateModel = await _itemRepository.GetByIdAsync(request.model.Id);
+					
+					//@todo
+					//check itemId == userId or userIsAdmin
+					
 					if (updateModel == null)
 						throw new NotFoundException("Item can not be found!");
 
+					_mapper.Map(request.model, updateModel);
+					
 					await _itemRepository.UpdateAsync(updateModel);
 
 					return true;

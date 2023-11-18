@@ -13,6 +13,7 @@ using WantToSell.Application.Features.Category.Models;
 using WantToSell.Application.Features.Category.Validators;
 using WantToSell.Application.Features.Items.Models;
 using WantToSell.Application.Features.Items.Validators;
+using WantToSell.Domain;
 
 namespace WantToSell.Application.Features.Items.Commands
 {
@@ -42,7 +43,7 @@ namespace WantToSell.Application.Features.Items.Commands
 					if (validationResult.Errors.Any())
 						throw new BadRequestException("Invalid request!", validationResult);
 
-					var entity = _mapper.Map<Domain.Item>(request.model);
+					var entity = _mapper.Map<Item>(request.model);
 					entity.Id = Guid.NewGuid();
 
 					await _itemRepository.CreateAsync(entity);
