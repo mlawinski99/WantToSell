@@ -53,6 +53,14 @@ namespace WantToSell.Api.Middleware
 						Type = nameof(NotFoundException),
 					};
 					break;
+				case AccessDeniedException ex:
+					customProblemDetails = new CustomProblemDetails()
+					{
+						Status = (int)HttpStatusCode.Forbidden,
+						Title = ex.Message,
+						Type = nameof(AccessDeniedException),
+					};
+					break;
 				default:
 					customProblemDetails = new CustomProblemDetails()
 					{
