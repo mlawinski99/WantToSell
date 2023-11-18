@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Serilog;
 using WantToSell.Api.Middleware;
 using WantToSell.Application;

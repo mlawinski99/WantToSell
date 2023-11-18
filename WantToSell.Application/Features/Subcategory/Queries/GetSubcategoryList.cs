@@ -9,7 +9,7 @@ namespace WantToSell.Application.Features.Subcategory.Queries
 {
 	public class GetSubcategoryList
 	{
-		public record Query(Guid categoryId) : IRequest<List<SubcategoryListModel>>;
+		public record Query(Guid CategoryId) : IRequest<List<SubcategoryListModel>>;
 
 		public class Handler : IRequestHandler<Query, List<SubcategoryListModel>>
 		{
@@ -32,10 +32,10 @@ namespace WantToSell.Application.Features.Subcategory.Queries
 			{
 				try
 				{
-					if (!_categoryRepository.IsCategoryExists(request.categoryId))
+					if (!_categoryRepository.IsCategoryExists(request.CategoryId))
 						throw new BadRequestException("Category does not exist!");
 
-					var result = await _subcategoryRepository.GetListByCategoryIdAsync(request.categoryId);
+					var result = await _subcategoryRepository.GetListByCategoryIdAsync(request.CategoryId);
 
 					return _mapper.Map<List<SubcategoryListModel>>(result);
 				}

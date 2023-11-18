@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using WantToSell.Application.Features.Category.Models;
+﻿using AutoMapper;
 using WantToSell.Application.Features.Items.Models;
 using WantToSell.Domain;
 

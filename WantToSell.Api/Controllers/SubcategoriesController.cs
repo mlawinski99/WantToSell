@@ -1,11 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using System.Diagnostics;
 using WantToSell.Application.Features.Subcategory.Commands;
 using WantToSell.Application.Features.Subcategory.Models;
-using WantToSell.Application.Features.Subcategory.Queries;
+
 namespace WantToSell.Api.Controllers
 {
 	[Authorize]

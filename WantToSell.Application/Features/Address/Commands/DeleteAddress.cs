@@ -1,9 +1,4 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
@@ -12,7 +7,7 @@ namespace WantToSell.Application.Features.Address.Commands
 {
 	public class DeleteAddress
 	{
-		public record Command(Guid id) : IRequest<bool>;
+		public record Command(Guid Id) : IRequest<bool>;
 
 		public class Handler : IRequestHandler<Command, bool>
 		{
@@ -28,7 +23,7 @@ namespace WantToSell.Application.Features.Address.Commands
 			{
 				try
 				{
-					var entity = await _addressRepository.GetByIdAsync(request.id);
+					var entity = await _addressRepository.GetByIdAsync(request.Id);
 
 					if (entity == null)
 						throw new NotFoundException($"Address does not exist!");

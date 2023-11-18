@@ -10,7 +10,7 @@ namespace WantToSell.Application.Features.Category.Commands
 {
     public class UpdateCategory
     {
-        public record Command(CategoryUpdateModel model) : IRequest<bool>;
+        public record Command(CategoryUpdateModel Model) : IRequest<bool>;
 
         public class Handler : IRequestHandler<Command, bool>
         {
@@ -30,17 +30,17 @@ namespace WantToSell.Application.Features.Category.Commands
                 try
                 {
                     var validator = new CategoryUpdateModelValidator();
-                    var validationResult = await validator.ValidateAsync(request.model, cancellationToken);
+                    var validationResult = await validator.ValidateAsync(request.Model, cancellationToken);
 
                     if (!validationResult.IsValid)
 	                    throw new BadRequestException("Invalid request!", validationResult);
 
-					var updateModel = await _categoryRepository.GetByIdAsync(request.model.Id);
+					var updateModel = await _categoryRepository.GetByIdAsync(request.Model.Id);
 
                     if (updateModel == null)
 	                    throw new NotFoundException("Category can not be found!");
 
-	                _mapper.Map(request.model, updateModel);
+	                _mapper.Map(request.Model, updateModel);
 
                     await _categoryRepository.UpdateAsync(updateModel);
 

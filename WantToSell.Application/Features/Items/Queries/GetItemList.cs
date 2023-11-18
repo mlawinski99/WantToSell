@@ -1,14 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Contracts.Persistence;
-using WantToSell.Application.Features.Category.Models;
-using WantToSell.Application.Features.Category.Queries;
 using WantToSell.Application.Features.Items.Models;
 
 namespace WantToSell.Application.Features.Items.Queries

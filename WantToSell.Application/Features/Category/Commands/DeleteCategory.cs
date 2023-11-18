@@ -1,21 +1,13 @@
-﻿using AutoMapper;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
-using WantToSell.Application.Features.Category.Models;
-using WantToSell.Application.Features.Category.Validators;
 
 namespace WantToSell.Application.Features.Category.Commands
 {
 	public class DeleteCategory
 	{
-		public record Command(Guid id) : IRequest<bool>;
+		public record Command(Guid Id) : IRequest<bool>;
 
 		public class Handler : IRequestHandler<Command, bool>
 		{
@@ -31,7 +23,7 @@ namespace WantToSell.Application.Features.Category.Commands
 			{
 				try
 				{
-					var entity = await _categoryRepository.GetByIdAsync(request.id);
+					var entity = await _categoryRepository.GetByIdAsync(request.Id);
 
 					if (entity == null)
 						throw new NotFoundException($"Category does not exist!");

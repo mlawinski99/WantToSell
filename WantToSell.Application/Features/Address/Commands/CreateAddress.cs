@@ -5,13 +5,12 @@ using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
 using WantToSell.Application.Features.Address.Models;
 using WantToSell.Application.Features.Address.Validators;
-using WantToSell.Application.Models.Identity;
 
 namespace WantToSell.Application.Features.Address.Commands
 {
 	public class CreateAddress
 	{
-		public record Command(AddressCreateModel model) : IRequest<bool>;
+		public record Command(AddressCreateModel Model) : IRequest<bool>;
 
 		public class Handler : IRequestHandler<Command, bool>
 		{
@@ -32,7 +31,7 @@ namespace WantToSell.Application.Features.Address.Commands
 				try
 				{
 					var validator = new AddressCreateModelValidator();
-					var validationResult = await validator.ValidateAsync(request.model, cancellationToken);
+					var validationResult = await validator.ValidateAsync(request.Model, cancellationToken);
 
 					//@todo
 					//var isUserAddressExists = await _addressRepository.IsExists(UserId);
@@ -42,7 +41,7 @@ namespace WantToSell.Application.Features.Address.Commands
 					if (validationResult.Errors.Any())
 						throw new BadRequestException("Invalid request!", validationResult);
 
-					var entity = _mapper.Map<Domain.Address>(request.model);
+					var entity = _mapper.Map<Domain.Address>(request.Model);
 					entity.Id = Guid.NewGuid();
 
 					await _addressRepository.CreateAsync(entity);

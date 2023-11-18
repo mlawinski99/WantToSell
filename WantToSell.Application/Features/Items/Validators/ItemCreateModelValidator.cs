@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using System;
 using WantToSell.Application.Features.Items.Models;
 
 namespace WantToSell.Application.Features.Items.Validators

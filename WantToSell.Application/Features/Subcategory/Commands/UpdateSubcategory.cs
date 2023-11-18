@@ -10,7 +10,7 @@ namespace WantToSell.Application.Features.Subcategory.Commands
 {
 	public class UpdateSubcategory
 	{
-		public record Command(SubcategoryUpdateModel model) : IRequest<bool>;
+		public record Command(SubcategoryUpdateModel Model) : IRequest<bool>;
 
 		public class Handler : IRequestHandler<Command, bool>
 		{
@@ -34,17 +34,17 @@ namespace WantToSell.Application.Features.Subcategory.Commands
 				try
 				{
 					var validator = new SubcategoryUpdateModelValidator(_categoryRepository);
-					var validationResult = await validator.ValidateAsync(request.model, cancellationToken);
+					var validationResult = await validator.ValidateAsync(request.Model, cancellationToken);
 
 					if (!validationResult.IsValid)
 						throw new BadRequestException("Invalid request!", validationResult);
 
-					var updateModel = await _subcategoryRepository.GetByIdAsync(request.model.Id);
+					var updateModel = await _subcategoryRepository.GetByIdAsync(request.Model.Id);
 
 					if (updateModel == null)
 						throw new NotFoundException("Subcategory can not be found!");
 
-					_mapper.Map(request.model, updateModel);
+					_mapper.Map(request.Model, updateModel);
 
 					await _subcategoryRepository.UpdateAsync(updateModel);
 

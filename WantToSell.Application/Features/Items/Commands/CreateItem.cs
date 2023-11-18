@@ -1,16 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
-using WantToSell.Application.Features.Category.Commands;
-using WantToSell.Application.Features.Category.Models;
-using WantToSell.Application.Features.Category.Validators;
 using WantToSell.Application.Features.Items.Models;
 using WantToSell.Application.Features.Items.Validators;
 using WantToSell.Domain;
@@ -19,7 +11,7 @@ namespace WantToSell.Application.Features.Items.Commands
 {
 	public class CreateItem
 	{
-		public record Command(ItemCreateModel model) : IRequest<bool>;
+		public record Command(ItemCreateModel Model) : IRequest<bool>;
 
 		public class Handler : IRequestHandler<Command, bool>
 		{
@@ -38,12 +30,12 @@ namespace WantToSell.Application.Features.Items.Commands
 				try
 				{
 					var validator = new ItemCreateModelValidator();
-					var validationResult = await validator.ValidateAsync(request.model, cancellationToken);
+					var validationResult = await validator.ValidateAsync(request.Model, cancellationToken);
 
 					if (validationResult.Errors.Any())
 						throw new BadRequestException("Invalid request!", validationResult);
 
-					var entity = _mapper.Map<Item>(request.model);
+					var entity = _mapper.Map<Item>(request.Model);
 					entity.Id = Guid.NewGuid();
 
 					await _itemRepository.CreateAsync(entity);

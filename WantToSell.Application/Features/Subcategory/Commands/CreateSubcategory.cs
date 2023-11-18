@@ -10,7 +10,7 @@ namespace WantToSell.Application.Features.Subcategory.Commands
 {
 	public class CreateSubcategory
 	{
-		public record Command(SubcategoryCreateModel model) : IRequest<bool>;
+		public record Command(SubcategoryCreateModel Model) : IRequest<bool>;
 
 		public class Handler : IRequestHandler<Command, bool>
 		{
@@ -34,12 +34,12 @@ namespace WantToSell.Application.Features.Subcategory.Commands
 				try
 				{
 					var validator = new SubcategoryCreateModelValidator(_categoryRepository);
-					var validationResult = await validator.ValidateAsync(request.model, cancellationToken);
+					var validationResult = await validator.ValidateAsync(request.Model, cancellationToken);
 
 					if (validationResult.Errors.Any())
 						throw new BadRequestException("Invalid request!", validationResult);
 
-					var entity = _mapper.Map<Domain.Subcategory>(request.model);
+					var entity = _mapper.Map<Domain.Subcategory>(request.Model);
 					entity.Id = Guid.NewGuid();
 
 					await _subcategoryRepository.CreateAsync(entity);

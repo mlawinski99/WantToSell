@@ -1,9 +1,6 @@
 ﻿using System.Net;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WantToSell.Api.Models;
-using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Exceptions;
 
 namespace WantToSell.Api.Middleware

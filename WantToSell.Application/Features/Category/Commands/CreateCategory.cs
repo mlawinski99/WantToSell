@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
@@ -15,7 +10,7 @@ namespace WantToSell.Application.Features.Category.Commands
 {
     public class CreateCategory
     {
-        public record Command(CategoryCreateModel model) : IRequest<bool>;
+        public record Command(CategoryCreateModel Model) : IRequest<bool>;
 
         public class Handler : IRequestHandler<Command, bool>
         {
@@ -34,12 +29,12 @@ namespace WantToSell.Application.Features.Category.Commands
                 try
                 {
                     var validator = new CategoryCreateModelValidator();
-                    var validationResult = await validator.ValidateAsync(request.model, cancellationToken);
+                    var validationResult = await validator.ValidateAsync(request.Model, cancellationToken);
 
                     if (validationResult.Errors.Any())
                         throw new BadRequestException("Invalid request!", validationResult);
 
-                    var entity = _mapper.Map<Domain.Category>(request.model);
+                    var entity = _mapper.Map<Domain.Category>(request.Model);
                     entity.Id = Guid.NewGuid();
 
                     await _categoryRepository.CreateAsync(entity);

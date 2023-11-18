@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -13,7 +8,6 @@ using WantToSell.Application.Contracts.Identity;
 using WantToSell.Application.Exceptions;
 using WantToSell.Application.Models.Identity;
 using WantToSell.Identity.Models;
-using Microsoft.IdentityModel.Tokens;
 
 
 namespace WantToSell.Identity.Services

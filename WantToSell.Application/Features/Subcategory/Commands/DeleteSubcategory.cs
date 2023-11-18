@@ -7,7 +7,7 @@ namespace WantToSell.Application.Features.Subcategory.Commands
 {
 	public class DeleteSubcategory
 	{
-		public record Command(Guid id) : IRequest<bool>;
+		public record Command(Guid Id) : IRequest<bool>;
 
 		public class Handler : IRequestHandler<Command, bool>
 		{
@@ -23,7 +23,7 @@ namespace WantToSell.Application.Features.Subcategory.Commands
 			{
 				try
 				{
-					var entity = await _subcategoryRepository.GetByIdAsync(request.id);
+					var entity = await _subcategoryRepository.GetByIdAsync(request.Id);
 
 					if (entity == null)
 						throw new NotFoundException($"Subcategory does not exist!");

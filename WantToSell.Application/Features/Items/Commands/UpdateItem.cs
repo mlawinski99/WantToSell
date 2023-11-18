@@ -1,9 +1,4 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Contracts.Persistence;
@@ -15,7 +10,7 @@ namespace WantToSell.Application.Features.Items.Commands
 {
 	public class UpdateItem
 	{
-		public record Command(ItemUpdateModel model) : IRequest<bool>;
+		public record Command(ItemUpdateModel Model) : IRequest<bool>;
 
 		public class Handler : IRequestHandler<Command, bool>
 		{
@@ -36,12 +31,12 @@ namespace WantToSell.Application.Features.Items.Commands
 				try
 				{
 					var validator = new ItemUpdateModelValidator();
-					var validationResult = await validator.ValidateAsync(request.model, cancellationToken);
+					var validationResult = await validator.ValidateAsync(request.Model, cancellationToken);
 
 					if (!validationResult.IsValid)
 						throw new BadRequestException("Invalid request!");
 
-					var updateModel = await _itemRepository.GetByIdAsync(request.model.Id);
+					var updateModel = await _itemRepository.GetByIdAsync(request.Model.Id);
 					
 					//@todo
 					//check itemId == userId or userIsAdmin
@@ -49,7 +44,7 @@ namespace WantToSell.Application.Features.Items.Commands
 					if (updateModel == null)
 						throw new NotFoundException("Item can not be found!");
 
-					_mapper.Map(request.model, updateModel);
+					_mapper.Map(request.Model, updateModel);
 					
 					await _itemRepository.UpdateAsync(updateModel);
 

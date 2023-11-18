@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 using WantToSell.Application.Features.Address.Models;
 
 namespace WantToSell.Application.Features.Address.Validators
