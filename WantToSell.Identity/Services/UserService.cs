@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using WantToSell.Application.Contracts.Identity;
 using WantToSell.Application.Models.Identity;
@@ -6,16 +6,14 @@ using WantToSell.Identity.Models;
 
 namespace WantToSell.Identity.Services
 {
-	public class UserService : IUserService
+	public class UserService
 	{
 		private readonly UserManager<ApplicationUser> _userManager;
-		private readonly IHttpContextAccessor _httpContextAccessor;
 
-		public UserService(UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
+		public UserService(UserManager<ApplicationUser> userManager)
 		{
 			_userManager = userManager;
-			_httpContextAccessor = httpContextAccessor;
-		}
+		}	
 		public async Task<List<UserModel>> GetUsers()
 		{
 			var users = await _userManager.GetUsersInRoleAsync("user");
@@ -42,8 +40,19 @@ namespace WantToSell.Identity.Services
 
 		public Guid GetCurrentUserId()
 		{
-			var userId = _httpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(claim => claim.Type == "jti")?.Value;
-			return Guid.Parse(userId);
+			var user = ClaimsPrincipal.Current;
+			
+			if (user != null && user.Identity.IsAuthenticated)
+			{
+				var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+
+				if (userIdClaim != null && Guid.TryParse(userIdClaim.Value, out var guidUserId))
+				{
+					return guidUserId;
+				}
+			}
+
+			return Guid.Empty;
 		}
 	}
 }
