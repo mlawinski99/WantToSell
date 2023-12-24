@@ -13,7 +13,6 @@ builder.Host.UseSerilog((context, loggerConfiguration) => loggerConfiguration
 	.WriteTo.Console()
 	.ReadFrom.Configuration(context.Configuration));
 
-builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddApplicationServicesCollection();
 builder.Services.AddInfrastructureServicesCollection();
@@ -51,6 +50,8 @@ app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<UserIdMiddleware>();
 
 app.MapControllers();
 

@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using WantToSell.Application.Contracts.Identity;
 using WantToSell.Application.Models.Identity;
+using WantToSell.Domain.Interfaces;
 using WantToSell.Identity.DbContexts;
 using WantToSell.Identity.Models;
 using WantToSell.Identity.Services;
@@ -27,9 +28,10 @@ namespace WantToSell.Identity
 			services.AddIdentity<ApplicationUser, IdentityRole>()
 				.AddEntityFrameworkStores<WantToSellIdentityContext>()
 				.AddDefaultTokenProviders();
-
+			
 			services.AddTransient<IAuthService, AuthService>();
 			services.AddTransient<IUserService, UserService>();
+			services.AddScoped<IUserContext, UserContext>();
 
 			services.AddAuthentication(options =>
 			{
@@ -50,7 +52,26 @@ namespace WantToSell.Identity
 				};
 			});
 
+			//services.AddDatabaseMigrationServices();
+			
 			return services;
+		}
+		
+		private static void AddDatabaseMigrationServices(this IServiceCollection services)
+		{
+			using var serviceProvider = services.BuildServiceProvider();
+			using var scope = serviceProvider.CreateScope();
+
+			var dbContext = scope.ServiceProvider.GetRequiredService<WantToSellIdentityContext>();
+
+			ApplyMigrations(dbContext);
+		}
+
+		private static void ApplyMigrations(WantToSellIdentityContext dbContext)
+		{
+			dbContext.Database.EnsureCreated();
+
+			dbContext.Database.Migrate();
 		}
 	}
 }

@@ -22,7 +22,6 @@ namespace WantToSell.Identity.Configurations
 					NormalizedUserName = "ADMIN@ADMIN.COM",
 					PasswordHash = hasher.HashPassword(null, "<47?7Ctp"),
 					EmailConfirmed = true,
-					Address = null
 				},
 				new ApplicationUser
 				{
@@ -35,7 +34,6 @@ namespace WantToSell.Identity.Configurations
 					NormalizedUserName = "USER@USER.COM",
 					PasswordHash = hasher.HashPassword(null, "<47?7Ctp"),
 					EmailConfirmed = true,
-					Address = null
 				}
 				);
 		}

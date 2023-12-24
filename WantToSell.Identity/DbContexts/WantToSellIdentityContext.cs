@@ -11,10 +11,7 @@ namespace WantToSell.Identity.DbContexts
 			(DbContextOptions<WantToSellIdentityContext> options) : base(options)
 		{
 		}
-		public DbSet<Address> Addresses { get; set; }
-		public DbSet<Category> Categories { get; set; }
-		public DbSet<Item> Items { get; set; }
-		public DbSet<Subcategory> Subcategories { get; set; }
+		
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);

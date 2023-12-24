@@ -1,12 +1,13 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Identity.Client;
 using WantToSell.Application.Contracts.Identity;
 using WantToSell.Application.Models.Identity;
 using WantToSell.Identity.Models;
 
 namespace WantToSell.Identity.Services
 {
-	public class UserService
+	public class UserService : IUserService
 	{
 		private readonly UserManager<ApplicationUser> _userManager;
 
@@ -36,23 +37,6 @@ namespace WantToSell.Identity.Services
 				Email = user.Email,
 				UserName = user.UserName
 			};
-		}
-
-		public Guid GetCurrentUserId()
-		{
-			var user = ClaimsPrincipal.Current;
-			
-			if (user != null && user.Identity.IsAuthenticated)
-			{
-				var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-
-				if (userIdClaim != null && Guid.TryParse(userIdClaim.Value, out var guidUserId))
-				{
-					return guidUserId;
-				}
-			}
-
-			return Guid.Empty;
 		}
 	}
 }

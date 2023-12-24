@@ -6,5 +6,6 @@ namespace WantToSell.Domain
 	{
 		public string Name { get; set; }
 		public virtual List<Subcategory> Subcategories { get; set; }
+		public virtual List<Item> Items { get; set; }
 	}
 }

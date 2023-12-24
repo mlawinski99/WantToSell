@@ -1,19 +1,31 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WantToSell.Application.Contracts.Identity;
 using WantToSell.Domain;
+using WantToSell.Domain.Interfaces;
 using WantToSell.Domain.Shared;
 
-namespace WantToSell.Persistence.DbContext
+namespace WantToSell.Persistence.DbContexts
 {
-	public class WantToSellContext : Microsoft.EntityFrameworkCore.DbContext
+	public class WantToSellContext : DbContext
 	{
-		private readonly IUserService _userService;
-		public WantToSellContext(DbContextOptions<WantToSellContext> options
-			, IUserService userService) : base(options)
+		private IUserContext _userContext;
+		public WantToSellContext(DbContextOptions<WantToSellContext> options, IUserContext userContext) : base(options)
 		{
-			this._userService = userService;
+			_userContext = userContext;
 		}
-		
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<Item>()
+				.HasOne(r => r.Subcategory)
+				.WithMany(p => p.Items)
+				.HasForeignKey(r => r.SubcategoryId)
+				.OnDelete(DeleteBehavior.NoAction);
+			
+			modelBuilder.Entity<Item>()
+				.HasOne(r => r.Category)
+				.WithMany(p => p.Items)
+				.HasForeignKey(r => r.CategoryId)
+				.OnDelete(DeleteBehavior.NoAction);
+		}
 		public DbSet<Address> Addresses { get; set; }
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<Item> Items { get; set; }
@@ -28,7 +40,7 @@ namespace WantToSell.Persistence.DbContext
 					case EntityState.Added:
 						entry.Entity.DateCreatedUtc = DateTime.UtcNow;
 						entry.Entity.DateModifiedUtc = null;
-						entry.Entity.CreatedBy = _userService.GetCurrentUserId();
+						entry.Entity.CreatedBy = _userContext.UserId;
 						break;
 					case EntityState.Modified:
 						entry.Entity.DateModifiedUtc = DateTime.UtcNow;

@@ -8,8 +8,8 @@ public class Item : Entity
 	public string Description { get; set; }
 	public DateTime DateExpiredUtc { get; set; }
 	public string Condition { get; set; }
-	public virtual Category Category { get; set; }
-	public virtual Guid CategoryId { get; set; }
-	public virtual Subcategory Subcategory { get; set; }
-	public virtual Guid SubcategoryId { get; set; }
+	public virtual Category? Category { get; set; }
+	public virtual Guid? CategoryId { get; set; }
+	public virtual Subcategory? Subcategory { get; set; }
+	public virtual Guid? SubcategoryId { get; set; }
 }

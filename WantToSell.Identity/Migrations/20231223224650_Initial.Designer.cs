@@ -12,8 +12,8 @@ using WantToSell.Identity.DbContexts;
 namespace WantToSell.Identity.Migrations
 {
     [DbContext(typeof(WantToSellIdentityContext))]
-    [Migration("20231104191617_Init")]
-    partial class Init
+    [Migration("20231223224650_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -184,145 +184,6 @@ namespace WantToSell.Identity.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("WantToSell.Domain.Address", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ApartmentNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DateCreatedUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateModifiedUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PostalCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Addresses");
-                });
-
-            modelBuilder.Entity("WantToSell.Domain.Category", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DateCreatedUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateModifiedUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("WantToSell.Domain.Item", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Condition")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DateCreatedUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateExpiredUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateModifiedUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("SubcategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("SubcategoryId");
-
-                    b.ToTable("Items");
-                });
-
-            modelBuilder.Entity("WantToSell.Domain.Subcategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DateCreatedUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateModifiedUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Subcategories");
-                });
-
             modelBuilder.Entity("WantToSell.Identity.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -330,9 +191,6 @@ namespace WantToSell.Identity.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
-
-                    b.Property<Guid?>("AddressId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -388,8 +246,6 @@ namespace WantToSell.Identity.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -405,7 +261,7 @@ namespace WantToSell.Identity.Migrations
                         {
                             Id = "ad098c34-065f-4c57-85af-ce2bcf28e7da",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b55864b9-f624-4221-8497-5c9096b046b3",
+                            ConcurrencyStamp = "ec533b8f-4725-417c-a039-3b055ddca39f",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -413,9 +269,9 @@ namespace WantToSell.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOxVJO7GYsP1WPObrLLsMzub+unLkWSfICS+j3svKWknIy8VWBD0H5PxZw6wVCVPNw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAoE7My37umJ0m6DPZE5bbEAKrFvcBG5fEtOySEVyzElGduo/Z1PWe8o+emesK4EaA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2e936867-0660-4d84-bcce-bff72ba25f93",
+                            SecurityStamp = "a7536630-1633-400a-a01d-bfeaceb829d8",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         },
@@ -423,7 +279,7 @@ namespace WantToSell.Identity.Migrations
                         {
                             Id = "342888de-992a-47ff-b3fd-285735f5c6b2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0e931819-cd02-4124-99de-57acf957eea3",
+                            ConcurrencyStamp = "6c8d3872-e840-47e2-b10e-3a33b3d199e3",
                             Email = "user@user.com",
                             EmailConfirmed = true,
                             FirstName = "Test",
@@ -431,9 +287,9 @@ namespace WantToSell.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@USER.COM",
                             NormalizedUserName = "USER@USER.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOy/LcZB4LyBo4iXNt4IhYC1fMHwEDWh2RUzKLZVvZlzV61PmaNRN4xeluBVZZlwKA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMgTQo1IDsxeori4nwLIjaxNOEWP5HAepb65VyiarKfhCZyZXCiGf0f1/Kogt8ewfQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "20589b76-8e47-4258-ab18-622cb9a0b3f7",
+                            SecurityStamp = "046bca53-3d39-469d-94b8-569294640327",
                             TwoFactorEnabled = false,
                             UserName = "user@user.com"
                         });
@@ -488,59 +344,6 @@ namespace WantToSell.Identity.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("WantToSell.Domain.Item", b =>
-                {
-                    b.HasOne("WantToSell.Identity.Models.ApplicationUser", null)
-                        .WithMany("Items")
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("WantToSell.Domain.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WantToSell.Domain.Subcategory", "Subcategory")
-                        .WithMany()
-                        .HasForeignKey("SubcategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Subcategory");
-                });
-
-            modelBuilder.Entity("WantToSell.Domain.Subcategory", b =>
-                {
-                    b.HasOne("WantToSell.Domain.Category", "Category")
-                        .WithMany("Subcategories")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("WantToSell.Identity.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("WantToSell.Domain.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
-
-                    b.Navigation("Address");
-                });
-
-            modelBuilder.Entity("WantToSell.Domain.Category", b =>
-                {
-                    b.Navigation("Subcategories");
-                });
-
-            modelBuilder.Entity("WantToSell.Identity.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

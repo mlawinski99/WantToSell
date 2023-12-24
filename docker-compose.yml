@@ -9,8 +9,7 @@ services:
     ports:
         - "5002:80" 
     depends_on:
-        - wanttosell.database
-    command: ["dotnet", "ef", "database update"]   
+        - wanttosell.database  
     
   wanttosell.database:
     image: "mcr.microsoft.com/mssql/server:2022-latest"

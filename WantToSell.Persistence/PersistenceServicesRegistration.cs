@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using WantToSell.Application.Contracts.Persistence;
-using WantToSell.Persistence.DbContext;
+using WantToSell.Persistence.DbContexts;
 using WantToSell.Persistence.Repositories;
 
 namespace WantToSell.Persistence
@@ -15,6 +15,8 @@ namespace WantToSell.Persistence
 				services.AddDbContext<WantToSellContext>(options => 
 					options.UseSqlServer(configuration.GetConnectionString("WantToSellDbConnectionString")));
 
+			//	services.AddDatabaseMigrationServices();
+				
 				services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 				services.AddScoped<ICategoryRepository, CategoryRepository>();
 				services.AddScoped<ISubcategoryRepository, SubcategoryRepository>();
@@ -22,6 +24,23 @@ namespace WantToSell.Persistence
 				services.AddScoped<IItemRepository, ItemRepository>();
 
 				return services;
+			}
+			
+			private static void AddDatabaseMigrationServices(this IServiceCollection services)
+			{
+				using var serviceProvider = services.BuildServiceProvider();
+				using var scope = serviceProvider.CreateScope();
+
+				var dbContext = scope.ServiceProvider.GetRequiredService<WantToSellContext>();
+
+				ApplyMigrations(dbContext);
+			}
+
+			private static void ApplyMigrations(WantToSellContext dbContext)
+			{
+				dbContext.Database.EnsureCreated();
+
+				dbContext.Database.Migrate();
 			}
 	}
 }
