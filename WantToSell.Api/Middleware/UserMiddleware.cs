@@ -13,10 +13,13 @@ public class UserIdMiddleware
 
     public async Task Invoke(HttpContext context, IUserContext userContext)
     {
-        var userIdClaim = context.User.FindFirst("uid")?.Value;
+        if (context.User.Identity.IsAuthenticated)
+        {
+            var userIdClaim = context.User.FindFirst("uid")?.Value;
 
-        userContext.UserId = Guid.Parse(userIdClaim);
-
+            userContext.UserId = Guid.Parse(userIdClaim);
+        }
+        
         await _next(context);
     }
 }
