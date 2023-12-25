@@ -44,6 +44,7 @@ namespace WantToSell.Api.Middleware
 						Type = nameof(BadRequestException),
 						Errors = ex.ValidationErrors
 					};
+					response.StatusCode = (int)HttpStatusCode.BadRequest;
 					break;
 				case NotFoundException ex:
 					customProblemDetails = new CustomProblemDetails()
@@ -52,6 +53,7 @@ namespace WantToSell.Api.Middleware
 						Title = ex.Message,
 						Type = nameof(NotFoundException),
 					};
+					response.StatusCode = (int)HttpStatusCode.NotFound;
 					break;
 				case AccessDeniedException ex:
 					customProblemDetails = new CustomProblemDetails()
@@ -60,6 +62,7 @@ namespace WantToSell.Api.Middleware
 						Title = ex.Message,
 						Type = nameof(AccessDeniedException),
 					};
+					response.StatusCode = (int)HttpStatusCode.Forbidden;
 					break;
 				default:
 					customProblemDetails = new CustomProblemDetails()
@@ -68,6 +71,7 @@ namespace WantToSell.Api.Middleware
 						Title = exception.Message,
 						Type = nameof(HttpStatusCode.InternalServerError),
 					};
+					response.StatusCode = (int)HttpStatusCode.InternalServerError;
 					break;
 			}
 			
