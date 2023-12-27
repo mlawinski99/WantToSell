@@ -5,6 +5,6 @@ namespace WantToSell.Application.Contracts.Persistence;
 
 public interface IAddressRepository : IGenericRepository<Address>
 {
-    Task<Address> GetAddressForUser(Guid userId);
+    Task<Address> GetAddressByUserId(Guid userId);
     bool IsExists(Guid userId);
 }

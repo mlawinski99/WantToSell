@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Features.Category.Models;
 
@@ -14,29 +13,18 @@ namespace WantToSell.Application.Features.Category.Queries
         {
             private readonly IMapper _mapper;
             private readonly ICategoryRepository _categoryRepository;
-            private readonly IApplicationLogger<GetCategoryList> _logger;
 
 			public Handler(IMapper mapper, 
-				ICategoryRepository categoryRepository, 
-				IApplicationLogger<GetCategoryList> logger)
+				ICategoryRepository categoryRepository)
             {
                 _mapper = mapper;
                 _categoryRepository = categoryRepository;
-                _logger = logger;
             }
             public async Task<List<CategoryListModel>> Handle(Query request, CancellationToken cancellationToken)
             {
-	            try
-	            {
-		            var result = await _categoryRepository.GetListAsync();
+    		    var result = await _categoryRepository.GetListAsync();
 
-		            return _mapper.Map<List<CategoryListModel>>(result);
-				}
-	            catch (Exception ex)
-	            {
-		            _logger.LogError(ex.Message, ex);
-		            throw;
-	            }
+		        return _mapper.Map<List<CategoryListModel>>(result);
             }
         }
     }

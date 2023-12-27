@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Identity.Client;
+﻿using Microsoft.AspNetCore.Identity;
 using WantToSell.Application.Contracts.Identity;
 using WantToSell.Application.Models.Identity;
 using WantToSell.Identity.Models;

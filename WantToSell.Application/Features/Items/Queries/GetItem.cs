@@ -14,29 +14,18 @@ namespace WantToSell.Application.Features.Items.Queries
 		{
 			private readonly IMapper _mapper;
 			private readonly IItemRepository _itemRepository;
-			private readonly IApplicationLogger<GetItem> _logger;
 
 			public Handler(IMapper mapper,
-				IItemRepository itemRepository,
-				IApplicationLogger<GetItem> logger)
+				IItemRepository itemRepository)
 			{
 				_mapper = mapper;
 				_itemRepository = itemRepository;
-				_logger = logger;
 			}
 			public async Task<ItemDetailModel> Handle(Query request, CancellationToken cancellationToken)
 			{
-				try
-				{
-					var result = await _itemRepository.GetByIdAsync(request.Id);
+				var result = await _itemRepository.GetByIdAsync(request.Id);
 
-					return _mapper.Map<ItemDetailModel>(result);
-				}
-				catch (Exception ex)
-				{
-					_logger.LogError(ex.Message, ex);
-					throw;
-				}
+				return _mapper.Map<ItemDetailModel>(result);
 			}
 		}
 	}

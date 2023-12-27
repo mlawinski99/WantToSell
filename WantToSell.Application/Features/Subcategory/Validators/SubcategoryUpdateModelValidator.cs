@@ -6,12 +6,8 @@ namespace WantToSell.Application.Features.Subcategory.Validators
 {
 	internal class SubcategoryUpdateModelValidator : AbstractValidator<SubcategoryUpdateModel>
 	{
-		private readonly ICategoryRepository _categoryRepository;
-
-		public SubcategoryUpdateModelValidator(ICategoryRepository categoryRepository)
+		public SubcategoryUpdateModelValidator()
 		{
-			_categoryRepository = categoryRepository;
-
 			RuleFor(p => p.Name)
 				.NotEmpty()
 				.NotNull()
@@ -26,15 +22,6 @@ namespace WantToSell.Application.Features.Subcategory.Validators
 				.NotEmpty()
 				.NotNull()
 				.WithMessage("Id is required and can not be empty!");
-
-			RuleFor(p => p.CategoryId)
-				.Must(IsCategoryExists)
-				.WithMessage("Category does not exist!");
-		}
-
-		private bool IsCategoryExists(Guid categoryId)
-		{
-			return _categoryRepository.IsCategoryExists(categoryId);
 		}
 	}
 }

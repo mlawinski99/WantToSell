@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
 using WantToSell.Application.Features.Category.Models;
-using WantToSell.Application.Features.Category.Validators;
 
 namespace WantToSell.Application.Features.Category.Commands
 {
@@ -14,43 +12,26 @@ namespace WantToSell.Application.Features.Category.Commands
 
         public class Handler : IRequestHandler<Command, bool>
         {
-	        private readonly IApplicationLogger<UpdateCategory> _logger;
 	        private readonly ICategoryRepository _categoryRepository;
 	        private readonly IMapper _mapper;
-            public Handler(ICategoryRepository categoryRepository, 
-	            IApplicationLogger<UpdateCategory> logger,
+            public Handler(ICategoryRepository categoryRepository,
 	            IMapper mapper)
             {
 	            _mapper = mapper;
 	            _categoryRepository = categoryRepository;
-	            _logger = logger;
             }
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                try
-                {
-                    var validator = new CategoryUpdateModelValidator();
-                    var validationResult = await validator.ValidateAsync(request.Model, cancellationToken);
+				var updateModel = await _categoryRepository.GetByIdAsync(request.Model.Id);
 
-                    if (!validationResult.IsValid)
-	                    throw new BadRequestException("Invalid request!", validationResult);
+                if (updateModel == null)
+                    throw new NotFoundException("Category can not be found!");
 
-					var updateModel = await _categoryRepository.GetByIdAsync(request.Model.Id);
+                _mapper.Map(request.Model, updateModel);
 
-                    if (updateModel == null)
-	                    throw new NotFoundException("Category can not be found!");
+                await _categoryRepository.UpdateAsync(updateModel);
 
-	                _mapper.Map(request.Model, updateModel);
-
-                    await _categoryRepository.UpdateAsync(updateModel);
-
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex.Message, ex);
-                    throw;
-                }
+                return true;
             }
         }
     }

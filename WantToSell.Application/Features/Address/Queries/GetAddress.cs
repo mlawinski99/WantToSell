@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using WantToSell.Application.Contracts.Identity;
-using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Contracts.Persistence;
-using WantToSell.Application.Exceptions;
 using WantToSell.Application.Features.Address.Models;
+using WantToSell.Domain.Interfaces;
 
 namespace WantToSell.Application.Features.Address.Queries
 {
@@ -16,36 +14,25 @@ namespace WantToSell.Application.Features.Address.Queries
 		{
 			private readonly IMapper _mapper;
 			private readonly IAddressRepository _addressRepository;
-			private readonly IApplicationLogger<GetAddress> _logger;
-			private readonly IUserService _userService;
+			private readonly IUserContext _userContext;
 
 			public Handler(IMapper mapper,
 				IAddressRepository addressRepository,
-				IApplicationLogger<GetAddress> logger,
-				IUserService userService)
+				IUserContext userContext)
 			{
 				_mapper = mapper;
 				_addressRepository = addressRepository;
-				_logger = logger;
-				_userService = userService;
+				_userContext = userContext;
 			}
 			public async Task<AddressDetailModel> Handle(Query request, CancellationToken cancellationToken)
 			{
-				try
-				{
-					var userId = _userService.GetCurrentUserId();
-					var result = await _addressRepository.GetAddressForUser(userId);
+				var userId = _userContext.UserId;
+				var result = await _addressRepository.GetAddressByUserId(userId);
 
-					if (result == null)
-						return new AddressDetailModel();
-					
-					return _mapper.Map<AddressDetailModel>(result);
-				}
-				catch (Exception ex)
-				{
-					_logger.LogError(ex.Message, ex);
-					throw;
-				}
+				if (result == null)
+					return new AddressDetailModel();
+				
+				return _mapper.Map<AddressDetailModel>(result);
 			}
 		}
 	}

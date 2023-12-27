@@ -31,7 +31,7 @@ namespace WantToSell.Api.Controllers
 		public async Task<List<SubcategoryListModel>> GetList(Guid id)
 		{
 			//Get Subcategories for Category by Id
-			return await _mediator.Send(new GetSubcategoryList.Query(id)); 
+			return await _mediator.Send(new GetSubcategoryListByCategoryId.Query(id)); 
 		}
 
 		[HttpPost]

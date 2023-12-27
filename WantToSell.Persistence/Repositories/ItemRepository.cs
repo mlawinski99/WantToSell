@@ -1,6 +1,6 @@
 ﻿using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Domain;
-using WantToSell.Persistence.DbContext;
+using WantToSell.Persistence.DbContexts;
 
 namespace WantToSell.Persistence.Repositories
 {

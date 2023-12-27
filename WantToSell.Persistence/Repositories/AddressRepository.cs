@@ -2,7 +2,7 @@
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Features.Address.Models;
 using WantToSell.Domain;
-using WantToSell.Persistence.DbContext;
+using WantToSell.Persistence.DbContexts;
 
 namespace WantToSell.Persistence.Repositories
 {
@@ -12,7 +12,7 @@ namespace WantToSell.Persistence.Repositories
 		{
 		}
 
-		public async Task<Address> GetAddressForUser(Guid userId)
+		public async Task<Address> GetAddressByUserId(Guid userId)
 		{
 			return await _context.Addresses
 				.Where(s => s.CreatedBy == userId)
