@@ -43,7 +43,8 @@ public class MockAddressRepository
 
         var addressMockRepository = new Mock<IAddressRepository>();
 
-        addressMockRepository.Setup(s => s.GetListAsync());
+        addressMockRepository.Setup(s => s.GetListAsync())
+            .ReturnsAsync(addressList);
       
         addressMockRepository.Setup(s => s.GetAddressByUserId(It.IsAny<Guid>()))
             .ReturnsAsync((Guid userId) =>

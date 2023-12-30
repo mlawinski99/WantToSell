@@ -30,7 +30,7 @@ namespace WantToSell.Application.Features.Address.Queries
 				var result = await _addressRepository.GetAddressByUserId(userId);
 
 				if (result == null)
-					return new AddressDetailModel();
+					return null;
 				
 				return _mapper.Map<AddressDetailModel>(result);
 			}
