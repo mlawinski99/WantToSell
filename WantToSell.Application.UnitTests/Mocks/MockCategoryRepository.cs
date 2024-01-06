@@ -41,6 +41,19 @@ public class MockCategoryRepository
                     }
                 },
                 Items = itemList
+            },
+            new()
+            {
+                Id = Guid.Parse("acc6d73a-85c2-4dff-aa78-e6e044ea638f"),
+                Name = "Category2",
+                Subcategories = new List<Domain.Subcategory>
+                {
+                    new()
+                    {
+                        Id = Guid.Parse("038d7697-ae4b-4c92-81e8-6dbd3c7cd122"),
+                        Name = "Subcategory2"
+                    }
+                }
             }
         };
 
@@ -63,6 +76,13 @@ public class MockCategoryRepository
                     .Any(a => a.Id == id);
             });
 
+        categoryMockRepository.Setup(s => s.IsCategoryNameExists(It.IsAny<string>()))
+            .Returns((string name) =>
+            {
+                return categoryList
+                    .Any(a => a.Name == name);
+            });
+
         categoryMockRepository.Setup(s => s.CreateAsync(It.IsAny<Domain.Category>()))
             .ReturnsAsync((Domain.Category category) =>
             {
@@ -76,6 +96,9 @@ public class MockCategoryRepository
             {
                 var existingCategory = categoryList
                     .FirstOrDefault(s => s.Id == category.Id);
+
+                if (existingCategory == null)
+                    return null;
 
                 mapper.Map(category, existingCategory);
                 return category;

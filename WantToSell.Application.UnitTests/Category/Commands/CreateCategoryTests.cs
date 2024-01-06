@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentAssertions;
 using Moq;
 using WantToSell.Application.Contracts.Persistence;
+using WantToSell.Application.Exceptions;
 using WantToSell.Application.Features.Category.Commands;
 using WantToSell.Application.Features.Category.Models;
 using WantToSell.Application.Mappings;
@@ -30,7 +31,7 @@ public class CreateCategoryTests
         //Arrange
         var model = new CategoryCreateModel
         {
-            Name = "Category1"
+            Name = "CategoryTest"
         };
 
         var handler = new CreateCategory.Handler(_mapper, _categoryMockRepository.Object);
@@ -40,5 +41,25 @@ public class CreateCategoryTests
 
         // Assert
         result.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task CreateCategoryTest_CategoryNameExists_ShouldThrowBadRequest()
+    {
+        //Arrange
+        var model = new CategoryCreateModel
+        {
+            Name = "Category1"
+        };
+
+        var handler = new CreateCategory.Handler(_mapper, _categoryMockRepository.Object);
+
+        // Act
+        var exception = await Assert.ThrowsAsync<BadRequestException>(() =>
+            handler.Handle(new CreateCategory.Command(model), CancellationToken.None));
+
+        // Assert
+        exception.Message.Should().Be("Category name already exists!");
+        exception.Should().BeOfType<BadRequestException>();
     }
 }

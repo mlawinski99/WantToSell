@@ -1,40 +1,48 @@
-﻿using MediatR;
-using AutoMapper;
+﻿using AutoMapper;
+using MediatR;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
 using WantToSell.Application.Features.Subcategory.Models;
-using WantToSell.Application.Features.Subcategory.Validators;
 
-namespace WantToSell.Application.Features.Subcategory.Commands
+namespace WantToSell.Application.Features.Subcategory.Commands;
+
+public class UpdateSubcategory
 {
-	public class UpdateSubcategory
-	{
-		public record Command(SubcategoryUpdateModel Model) : IRequest<bool>;
+    public record Command(SubcategoryUpdateModel Model) : IRequest<bool>;
 
-		public class Handler : IRequestHandler<Command, bool>
-		{
-			private readonly IMapper _mapper;
-			private readonly ISubcategoryRepository _subcategoryRepository;
+    public class Handler : IRequestHandler<Command, bool>
+    {
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
+        private readonly ISubcategoryRepository _subcategoryRepository;
 
-			public Handler(ISubcategoryRepository subcategoryRepository,
-				IMapper mapper)
-			{
-				_subcategoryRepository = subcategoryRepository;
-				_mapper = mapper;
-			}
-			public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
-			{
-				var updateModel = await _subcategoryRepository.GetByIdAsync(request.Model.Id);
+        public Handler(ISubcategoryRepository subcategoryRepository,
+            IMapper mapper,
+            ICategoryRepository categoryRepository)
+        {
+            _subcategoryRepository = subcategoryRepository;
+            _mapper = mapper;
+            _categoryRepository = categoryRepository;
+        }
 
-				if (updateModel == null)
-					throw new NotFoundException("Subcategory can not be found!");
+        public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
+        {
+            var updateModel = await _subcategoryRepository.GetByIdAsync(request.Model.Id);
 
-				_mapper.Map(request.Model, updateModel);
+            if (updateModel == null)
+                throw new NotFoundException("Subcategory can not be found!");
 
-				await _subcategoryRepository.UpdateAsync(updateModel);
+            if (!_categoryRepository.IsCategoryExists(request.Model.CategoryId))
+                throw new NotFoundException("Category can not be found!");
 
-				return true;
-			}
-		}
-	}
+            if (_subcategoryRepository.IsSubcategoryNameExists(request.Model.Name))
+                throw new BadRequestException("Subcategory name already exists!");
+
+            _mapper.Map(request.Model, updateModel);
+
+            await _subcategoryRepository.UpdateAsync(updateModel);
+
+            return true;
+        }
+    }
 }

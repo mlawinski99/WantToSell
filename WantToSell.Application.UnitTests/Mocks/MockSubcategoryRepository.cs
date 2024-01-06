@@ -18,13 +18,13 @@ public class MockSubcategoryRepository
             {
                 Id = Guid.Parse("e8be60f5-eb3b-4c66-b8ff-815c799bbb8a"),
                 Name = "Subcategory1",
-                CategoryId = Guid.Parse("bc6a071f-c0d1-40e6-9889-528a74bde413")
+                CategoryId = Guid.Parse("961bfa68-9f14-4ec2-b86a-b787102b1e7f")
             },
             new()
             {
                 Id = Guid.Parse("a965d961-46a7-44b4-bc17-9f96a938a057"),
                 Name = "Subcategory2",
-                CategoryId = Guid.Parse("bc6a071f-c0d1-40e6-9889-528a74bde413")
+                CategoryId = Guid.Parse("961bfa68-9f14-4ec2-b86a-b787102b1e7f")
             }
         };
 
@@ -41,10 +41,18 @@ public class MockSubcategoryRepository
             });
 
         subcategoryMockRepository.Setup(s => s.GetListByCategoryIdAsync(It.IsAny<Guid>()))
-            .Returns((Guid categoryId) =>
+            .ReturnsAsync((Guid categoryId) =>
             {
                 return subcategoryList
-                    .Where(a => a.CategoryId == categoryId);
+                    .Where(a => a.CategoryId == categoryId)
+                    .ToList();
+            });
+
+        subcategoryMockRepository.Setup(s => s.IsSubcategoryNameExists(It.IsAny<string>()))
+            .Returns((string name) =>
+            {
+                return subcategoryList
+                    .Any(a => a.Name == name);
             });
 
         subcategoryMockRepository.Setup(s => s.CreateAsync(It.IsAny<Domain.Subcategory>()))
@@ -60,6 +68,9 @@ public class MockSubcategoryRepository
             {
                 var existingSubcategory = subcategoryList
                     .FirstOrDefault(s => s.Id == subcategory.Id);
+
+                if (existingSubcategory == null)
+                    return null;
 
                 mapper.Map(subcategory, existingSubcategory);
                 return subcategory;

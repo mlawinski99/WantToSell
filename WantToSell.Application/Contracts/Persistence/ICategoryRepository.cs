@@ -4,5 +4,6 @@ namespace WantToSell.Application.Contracts.Persistence;
 
 public interface ICategoryRepository : IGenericRepository<Category>
 {
-	bool IsCategoryExists(Guid id);
+    bool IsCategoryExists(Guid id);
+    bool IsCategoryNameExists(string name);
 }

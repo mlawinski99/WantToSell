@@ -64,4 +64,46 @@ public class UpdateCategoryTests
         exception.Message.Should().Be("Category can not be found!");
         exception.Should().BeOfType<NotFoundException>();
     }
+
+    [Fact]
+    public async Task UpdateCategoryTest_CategoryNameExists_ShouldThrowBadRequestException()
+    {
+        // Arrange
+        var updateModel = new CategoryUpdateModel
+        {
+            Id = Guid.Parse("acc6d73a-85c2-4dff-aa78-e6e044ea638f"),
+            Name = "Category1"
+        };
+
+        var handler = new UpdateCategory.Handler(_categoryMockRepository.Object, _mapper);
+
+        // Act
+        var exception = await Assert.ThrowsAsync<BadRequestException>(() =>
+            handler.Handle(new UpdateCategory.Command(updateModel), CancellationToken.None));
+
+        //Assert
+        exception.Message.Should().Be("Category name already exists!");
+        exception.Should().BeOfType<BadRequestException>();
+    }
+
+    [Fact]
+    public async Task UpdateCategoryTest_CategoryNotExists_ShouldThrowNotFoundException()
+    {
+        // Arrange
+        var updateModel = new CategoryUpdateModel
+        {
+            Id = Guid.Parse("1111d73a-85c2-4dff-aa78-e6e044ea638f"),
+            Name = "Category1"
+        };
+
+        var handler = new UpdateCategory.Handler(_categoryMockRepository.Object, _mapper);
+
+        // Act
+        var exception = await Assert.ThrowsAsync<NotFoundException>(() =>
+            handler.Handle(new UpdateCategory.Command(updateModel), CancellationToken.None));
+
+        //Assert
+        exception.Message.Should().Be("Category can not be found!");
+        exception.Should().BeOfType<NotFoundException>();
+    }
 }

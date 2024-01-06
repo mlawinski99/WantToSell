@@ -4,37 +4,39 @@ using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
 using WantToSell.Application.Features.Category.Models;
 
-namespace WantToSell.Application.Features.Category.Commands
+namespace WantToSell.Application.Features.Category.Commands;
+
+public class UpdateCategory
 {
-    public class UpdateCategory
+    public record Command(CategoryUpdateModel Model) : IRequest<bool>;
+
+    public class Handler : IRequestHandler<Command, bool>
     {
-        public record Command(CategoryUpdateModel Model) : IRequest<bool>;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
 
-        public class Handler : IRequestHandler<Command, bool>
+        public Handler(ICategoryRepository categoryRepository,
+            IMapper mapper)
         {
-	        private readonly ICategoryRepository _categoryRepository;
-	        private readonly IMapper _mapper;
-            public Handler(ICategoryRepository categoryRepository,
-	            IMapper mapper)
-            {
-	            _mapper = mapper;
-	            _categoryRepository = categoryRepository;
-            }
-            public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
-            {
-				var updateModel = await _categoryRepository.GetByIdAsync(request.Model.Id);
+            _mapper = mapper;
+            _categoryRepository = categoryRepository;
+        }
 
-                if (updateModel == null)
-                    throw new NotFoundException("Category can not be found!");
-            
-                //@todo if category with this name exists throw exception
+        public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
+        {
+            var updateModel = await _categoryRepository.GetByIdAsync(request.Model.Id);
 
-                _mapper.Map(request.Model, updateModel);
+            if (updateModel == null)
+                throw new NotFoundException("Category can not be found!");
 
-                await _categoryRepository.UpdateAsync(updateModel);
+            if (_categoryRepository.IsCategoryNameExists(request.Model.Name))
+                throw new BadRequestException("Category name already exists!");
 
-                return true;
-            }
+            _mapper.Map(request.Model, updateModel);
+
+            await _categoryRepository.UpdateAsync(updateModel);
+
+            return true;
         }
     }
 }
