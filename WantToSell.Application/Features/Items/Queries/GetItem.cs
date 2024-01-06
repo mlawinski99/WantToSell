@@ -25,6 +25,9 @@ namespace WantToSell.Application.Features.Items.Queries
 			{
 				var result = await _itemRepository.GetByIdAsync(request.Id);
 
+				if (result == null)
+					return null;
+				
 				return _mapper.Map<ItemDetailModel>(result);
 			}
 		}

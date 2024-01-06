@@ -26,6 +26,8 @@ namespace WantToSell.Application.Features.Category.Commands
 
                 if (updateModel == null)
                     throw new NotFoundException("Category can not be found!");
+            
+                //@todo if category with this name exists throw exception
 
                 _mapper.Map(request.Model, updateModel);
 

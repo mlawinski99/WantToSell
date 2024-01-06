@@ -21,6 +21,7 @@ namespace WantToSell.Application.Features.Category.Commands
             }
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
+                //@todo if category with this name exists throw exception
                 var entity = _mapper.Map<Domain.Category>(request.Model);
                 entity.Id = Guid.NewGuid();
 
