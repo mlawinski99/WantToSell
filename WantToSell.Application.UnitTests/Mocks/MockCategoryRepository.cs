@@ -31,7 +31,7 @@ public class MockCategoryRepository
             {
                 Id = Guid.Parse("961bfa68-9f14-4ec2-b86a-b787102b1e7f"),
                 Name = "Category1",
-                Subcategories = new List<Subcategory>
+                Subcategories = new List<Domain.Subcategory>
                 {
                     new()
                     {
