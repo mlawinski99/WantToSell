@@ -33,4 +33,10 @@ public class SubcategoryRepository : GenericRepository<Subcategory>, ISubcategor
         return _context.Subcategories
             .Any(s => s.Name == name);
     }
+
+    public bool IsSubcategoryExists(Guid subcategoryId)
+    {
+        return _context.Subcategories
+            .Any(s => s.Id == subcategoryId);
+    }
 }

@@ -10,8 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Host.UseSerilog((context, loggerConfiguration) => loggerConfiguration
-	.WriteTo.Console()
-	.ReadFrom.Configuration(context.Configuration));
+    .WriteTo.Console()
+    .ReadFrom.Configuration(context.Configuration));
 
 
 builder.Services.AddApplicationServicesCollection();
@@ -21,11 +21,11 @@ builder.Services.AddIdentityServicesRegistration(builder.Configuration);
 
 builder.Services.AddCors(options =>
 {
-	options.AddPolicy("AllowAll",
-		builder =>
-			builder.AllowAnyOrigin()
-				.AllowAnyHeader()
-				.AllowAnyMethod());
+    options.AddPolicy("AllowAll",
+        builder =>
+            builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod());
 });
 
 builder.Services.AddControllers();
@@ -41,8 +41,8 @@ app.UseMiddleware<ExceptionMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-	app.UseSwagger();
-	app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseSerilogRequestLogging();
@@ -53,8 +53,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMiddleware<UserIdMiddleware>();
-
-app.UseMiddleware<ValidationMiddleware>();
 
 app.MapControllers();
 

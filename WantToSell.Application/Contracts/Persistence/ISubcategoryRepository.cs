@@ -6,4 +6,5 @@ public interface ISubcategoryRepository : IGenericRepository<Subcategory>
 {
     Task<List<Subcategory>> GetListByCategoryIdAsync(Guid categoryId);
     bool IsSubcategoryNameExists(string name);
+    bool IsSubcategoryExists(Guid subcategoryId);
 }

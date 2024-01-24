@@ -2,31 +2,31 @@
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
 
-namespace WantToSell.Application.Features.Items.Commands
+namespace WantToSell.Application.Features.Items.Commands;
+
+public class DeleteItem
 {
-	public class DeleteItem
-	{
-		public record Command(Guid Id) : IRequest<bool>;
+    public record Command(Guid Id) : IRequest<bool>;
 
-		public class Handler : IRequestHandler<Command, bool>
-		{
-			private readonly IItemRepository _itemRepository;
+    public class Handler : IRequestHandler<Command, bool>
+    {
+        private readonly IItemRepository _itemRepository;
 
-			public Handler(IItemRepository itemRepository)
-			{
-				_itemRepository = itemRepository;
-			}
-			public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
-			{
-				var entity = await _itemRepository.GetByIdAsync(request.Id);
+        public Handler(IItemRepository itemRepository)
+        {
+            _itemRepository = itemRepository;
+        }
 
-				if (entity == null)
-					throw new NotFoundException($"Item does not exist!");
+        public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
+        {
+            var entity = await _itemRepository.GetByIdAsync(request.Id);
 
-				await _itemRepository.DeleteAsync(entity);
+            if (entity == null)
+                throw new NotFoundException("Item can not be found!");
 
-				return true;
-			}
-		}
-	}
+            await _itemRepository.DeleteAsync(entity);
+
+            return true;
+        }
+    }
 }
