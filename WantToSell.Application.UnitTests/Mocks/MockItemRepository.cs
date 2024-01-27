@@ -59,8 +59,6 @@ public class MockItemRepository
                 var existingItem = itemList
                     .FirstOrDefault(s => s.Id == item.Id);
 
-                //@todo check if in other mock repositories its done in correct way
-
                 if (existingItem == null)
                     return null;
 

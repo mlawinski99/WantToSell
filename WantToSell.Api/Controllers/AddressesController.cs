@@ -23,28 +23,34 @@ public class AddressController : ControllerBase
     public async Task<ActionResult<AddressDetailModel>> Get()
     {
         var result = await _mediator.Send(new GetAddress.Query());
+
         return Ok(result);
     }
 
     [HttpPost]
     public async Task<ActionResult<Guid>> Create(AddressCreateModel model)
     {
-        var resultId = await _mediator.Send(new CreateAddress.Command(model));
+        var result = await _mediator.Send(new CreateAddress.Command(model));
 
-        return Ok(new {Id = resultId});
+        return CreatedAtAction(
+            nameof(Get),
+            new { id = result.Id },
+            result);
     }
 
     [HttpPut]
     public async Task<IActionResult> Update(AddressUpdateModel model)
     {
-        await _mediator.Send(new UpdateAddress.Command(model));
-        return NoContent();
+        var result = await _mediator.Send(new UpdateAddress.Command(model));
+
+        return Ok(result);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        await _mediator.Send(new DeleteAddress.Command(id));
+        var result = await _mediator.Send(new DeleteAddress.Command(id));
+
         return NoContent();
     }
 }

@@ -46,7 +46,15 @@ public class UpdateItemTests
         var result = await handler.Handle(new UpdateItem.Command(model), CancellationToken.None);
 
         // Assert
-        result.Should().BeTrue();
+        // Assert
+        result.Should().NotBeNull();
+        result.Id.Should().Be(model.Id);
+        result.Name.Should().Be(model.Name);
+        result.Description.Should().Be(model.Description);
+        result.DateExpiredUtc.Date.Should().Be(model.DateExpiredUtc.Date);
+        result.CategoryId.Should().Be(model.CategoryId);
+        result.SubcategoryId.Should().Be(model.SubcategoryId);
+        result.Condition.Should().Be(model.Condition);
     }
 
     [Fact]

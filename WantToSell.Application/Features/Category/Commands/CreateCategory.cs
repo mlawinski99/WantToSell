@@ -8,9 +8,9 @@ namespace WantToSell.Application.Features.Category.Commands;
 
 public class CreateCategory
 {
-    public record Command(CategoryCreateModel Model) : IRequest<bool>;
+    public record Command(CategoryCreateModel Model) : IRequest<CategoryViewModel>;
 
-    public class Handler : IRequestHandler<Command, bool>
+    public class Handler : IRequestHandler<Command, CategoryViewModel>
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
@@ -21,7 +21,7 @@ public class CreateCategory
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<CategoryViewModel> Handle(Command request, CancellationToken cancellationToken)
         {
             if (_categoryRepository.IsCategoryNameExists(request.Model.Name))
                 throw new BadRequestException("Category name already exists!");
@@ -31,7 +31,7 @@ public class CreateCategory
 
             await _categoryRepository.CreateAsync(entity);
 
-            return true;
+            return _mapper.Map<CategoryViewModel>(entity);
         }
     }
 }

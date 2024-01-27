@@ -8,9 +8,9 @@ namespace WantToSell.Application.Features.Subcategory.Commands;
 
 public class UpdateSubcategory
 {
-    public record Command(SubcategoryUpdateModel Model) : IRequest<bool>;
+    public record Command(SubcategoryUpdateModel Model) : IRequest<SubcategoryViewModel>;
 
-    public class Handler : IRequestHandler<Command, bool>
+    public class Handler : IRequestHandler<Command, SubcategoryViewModel>
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
@@ -25,7 +25,7 @@ public class UpdateSubcategory
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<SubcategoryViewModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var updateModel = await _subcategoryRepository.GetByIdAsync(request.Model.Id);
 
@@ -42,7 +42,7 @@ public class UpdateSubcategory
 
             await _subcategoryRepository.UpdateAsync(updateModel);
 
-            return true;
+            return _mapper.Map<SubcategoryViewModel>(updateModel);
         }
     }
 }

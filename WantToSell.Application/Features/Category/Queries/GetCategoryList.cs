@@ -3,29 +3,29 @@ using MediatR;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Features.Category.Models;
 
-namespace WantToSell.Application.Features.Category.Queries
+namespace WantToSell.Application.Features.Category.Queries;
+
+public class GetCategoryList
 {
-    public class GetCategoryList
+    public record Query : IRequest<List<CategoryViewModel>>;
+
+    public class Handler : IRequestHandler<Query, List<CategoryViewModel>>
     {
-        public record Query : IRequest<List<CategoryListModel>>;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
 
-        public class Handler : IRequestHandler<Query, List<CategoryListModel>>
+        public Handler(IMapper mapper,
+            ICategoryRepository categoryRepository)
         {
-            private readonly IMapper _mapper;
-            private readonly ICategoryRepository _categoryRepository;
+            _mapper = mapper;
+            _categoryRepository = categoryRepository;
+        }
 
-			public Handler(IMapper mapper, 
-				ICategoryRepository categoryRepository)
-            {
-                _mapper = mapper;
-                _categoryRepository = categoryRepository;
-            }
-            public async Task<List<CategoryListModel>> Handle(Query request, CancellationToken cancellationToken)
-            {
-    		    var result = await _categoryRepository.GetListAsync();
+        public async Task<List<CategoryViewModel>> Handle(Query request, CancellationToken cancellationToken)
+        {
+            var result = await _categoryRepository.GetListAsync();
 
-		        return _mapper.Map<List<CategoryListModel>>(result);
-            }
+            return _mapper.Map<List<CategoryViewModel>>(result);
         }
     }
 }

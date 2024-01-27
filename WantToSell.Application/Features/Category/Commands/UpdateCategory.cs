@@ -8,9 +8,9 @@ namespace WantToSell.Application.Features.Category.Commands;
 
 public class UpdateCategory
 {
-    public record Command(CategoryUpdateModel Model) : IRequest<bool>;
+    public record Command(CategoryUpdateModel Model) : IRequest<CategoryViewModel>;
 
-    public class Handler : IRequestHandler<Command, bool>
+    public class Handler : IRequestHandler<Command, CategoryViewModel>
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
@@ -22,7 +22,7 @@ public class UpdateCategory
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<CategoryViewModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var updateModel = await _categoryRepository.GetByIdAsync(request.Model.Id);
 
@@ -36,7 +36,7 @@ public class UpdateCategory
 
             await _categoryRepository.UpdateAsync(updateModel);
 
-            return true;
+            return _mapper.Map<CategoryViewModel>(updateModel);
         }
     }
 }

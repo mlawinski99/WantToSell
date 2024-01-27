@@ -40,7 +40,8 @@ public class CreateCategoryTests
         var result = await handler.Handle(new CreateCategory.Command(model), CancellationToken.None);
 
         // Assert
-        result.Should().BeTrue();
+        result.Should().NotBeNull();
+        result.Name.Should().Be(model.Name);
     }
 
     [Fact]

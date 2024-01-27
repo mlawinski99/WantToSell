@@ -4,55 +4,62 @@ using Microsoft.AspNetCore.Mvc;
 using WantToSell.Application.Features.Category.Commands;
 using WantToSell.Application.Features.Category.Models;
 using WantToSell.Application.Features.Category.Queries;
-using WantToSell.Application.Features.Subcategory.Models;
-using WantToSell.Application.Features.Subcategory.Queries;
 
-namespace WantToSell.Api.Controllers
+namespace WantToSell.Api.Controllers;
+
+[Authorize]
+[ApiController]
+[Route("api/categories")]
+public class CategoriesController : ControllerBase
 {
-	[Authorize]
-	[ApiController]
-	[Route("api/categories")]
-	public class CategoriesController : ControllerBase
-	{
-		private readonly IMediator _mediator;
+    private readonly IMediator _mediator;
 
-		public CategoriesController(IMediator mediator)
-		{
-			_mediator = mediator;
-		}
+    public CategoriesController(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
 
-		[HttpGet]
-		public async Task<List<CategoryListModel>> GetList()
-		{
-			return await _mediator.Send(new GetCategoryList.Query());
-		}
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(Guid id)
+    {
+        var result = await _mediator.Send(new GetCategory.Query(id));
 
-		[HttpGet("{id}")]
-		public async Task<List<SubcategoryListModel>> GetList(Guid id)
-		{
-			//Get Subcategories for Category by Id
-			return await _mediator.Send(new GetSubcategoryListByCategoryId.Query(id)); 
-		}
+        return Ok(result);
+    }
 
-		[HttpPost]
-		public async Task<IActionResult> Create(CategoryCreateModel model)
-		{
-			await _mediator.Send(new CreateCategory.Command(model));
-			return Accepted();
-		}
+    [HttpGet]
+    public async Task<IActionResult> GetList()
+    {
+        var result = await _mediator.Send(new GetCategoryList.Query());
 
-		[HttpPut]
-		public async Task<IActionResult> Update(CategoryUpdateModel model)
-		{
-			await _mediator.Send(new UpdateCategory.Command(model));
-			return NoContent();
-		}
+        return Ok(result);
+    }
 
-		[HttpDelete("{id}")]
-		public async Task<IActionResult> Delete(Guid id)
-		{
-			await _mediator.Send(new DeleteCategory.Command(id));
-			return NoContent();
-		}
-	}
+    [HttpPost]
+    public async Task<IActionResult> Create(CategoryCreateModel model)
+    {
+        var result = await _mediator.Send(new CreateCategory.Command(model));
+
+        return CreatedAtAction(
+            nameof(Get),
+            new { id = result.Id },
+            result);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> Update(CategoryUpdateModel model)
+    {
+        var result = await _mediator.Send(new UpdateCategory.Command(model));
+
+
+        return Ok(result);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        await _mediator.Send(new DeleteCategory.Command(id));
+
+        return NoContent();
+    }
 }

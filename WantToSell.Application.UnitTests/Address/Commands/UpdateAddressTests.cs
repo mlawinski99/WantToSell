@@ -16,22 +16,19 @@ namespace WantToSell.Application.UnitTests.Address.Commands;
 public class UpdateAddressTests
 {
     private readonly Mock<IAddressRepository> _addressMockRepository;
-    private readonly Mock<IUserService> _userMockRepository;
     private readonly IMapper _mapper;
+    private readonly Mock<IUserService> _userMockRepository;
 
     public UpdateAddressTests()
     {
         _addressMockRepository = MockAddressRepository.GetAddressRepositoryMock();
         _userMockRepository = MockUserRepository.GetUserRepositoryMock();
 
-        var mapperConfiguration = new MapperConfiguration(c =>
-        {
-            c.AddProfile<AddressProfile>();
-        });
+        var mapperConfiguration = new MapperConfiguration(c => { c.AddProfile<AddressProfile>(); });
 
         _mapper = mapperConfiguration.CreateMapper();
     }
-    
+
     [Fact]
     public async Task UpdateAddressTest_UserWithAddress_ShouldPass()
     {
@@ -42,20 +39,24 @@ public class UpdateAddressTests
             City = "Katowice",
             Street = "Mickiewicza",
             PostalCode = "40-092",
-            ApartmentNumber = "30",
+            ApartmentNumber = "30"
         };
-        
+
         var mockUserContext = new Mock<IUserContext>();
         var userId = _userMockRepository.Object.GetUsers().Result.First().Id; //User with address
         mockUserContext.SetupGet(u => u.UserId).Returns(Guid.Parse(userId));
-        
+
         var handler = new UpdateAddress.Handler(_addressMockRepository.Object, mockUserContext.Object, _mapper);
 
         // Act
         var result = await handler.Handle(new UpdateAddress.Command(updateModel), CancellationToken.None);
 
         // Assert
-        result.Should().BeTrue();
+        result.Should().NotBeNull();
+        result.City.Should().Be(updateModel.City);
+        result.Street.Should().Be(updateModel.Street);
+        result.PostalCode.Should().Be(updateModel.PostalCode);
+        result.ApartmentNumber.Should().Be(updateModel.ApartmentNumber);
     }
 
     [Fact]
@@ -68,9 +69,9 @@ public class UpdateAddressTests
             City = "Katowice",
             Street = "Mickiewicza",
             PostalCode = "40-092",
-            ApartmentNumber = "30",
+            ApartmentNumber = "30"
         };
-        
+
         var mockUserContext = new Mock<IUserContext>();
         var userId = _userMockRepository.Object.GetUsers().Result.Last().Id; //User without address
         mockUserContext.SetupGet(u => u.UserId).Returns(Guid.Parse(userId));
@@ -78,8 +79,9 @@ public class UpdateAddressTests
         var handler = new UpdateAddress.Handler(_addressMockRepository.Object, mockUserContext.Object, _mapper);
 
         //Act
-        var exception = await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(new UpdateAddress.Command(updateModel), CancellationToken.None));
-        
+        var exception = await Assert.ThrowsAsync<NotFoundException>(() =>
+            handler.Handle(new UpdateAddress.Command(updateModel), CancellationToken.None));
+
         //Assert
         exception.Message.Should().Be("Address can not be found!");
         exception.Should().BeOfType<NotFoundException>();
@@ -95,9 +97,9 @@ public class UpdateAddressTests
             City = "Katowice",
             Street = "Mickiewicza",
             PostalCode = "40-092",
-            ApartmentNumber = "30",
+            ApartmentNumber = "30"
         };
-        
+
         var mockUserContext = new Mock<IUserContext>();
         var userId = _userMockRepository.Object.GetUsers().Result.First().Id; //User with address
         mockUserContext.SetupGet(u => u.UserId).Returns(Guid.Parse(userId));
@@ -105,8 +107,9 @@ public class UpdateAddressTests
         var handler = new UpdateAddress.Handler(_addressMockRepository.Object, mockUserContext.Object, _mapper);
 
         //Act
-        var exception = await Assert.ThrowsAsync<AccessDeniedException>(() => handler.Handle(new UpdateAddress.Command(updateModel), CancellationToken.None));
-        
+        var exception = await Assert.ThrowsAsync<AccessDeniedException>(() =>
+            handler.Handle(new UpdateAddress.Command(updateModel), CancellationToken.None));
+
         //Assert
         exception.Should().BeOfType<AccessDeniedException>();
     }

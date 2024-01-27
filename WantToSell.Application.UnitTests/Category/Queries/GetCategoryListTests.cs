@@ -29,7 +29,7 @@ public class GetCategoryListTests
     {
         // Arrange
         var categoryList = await _categoryMockRepository.Object.GetListAsync();
-        var mappedCategoryList = _mapper.Map<List<CategoryListModel>>(categoryList);
+        var mappedCategoryList = _mapper.Map<List<CategoryViewModel>>(categoryList);
         var handler = new GetCategoryList.Handler(_mapper, _categoryMockRepository.Object);
 
         // Act

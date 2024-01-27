@@ -8,9 +8,9 @@ namespace WantToSell.Application.Features.Subcategory.Commands;
 
 public class CreateSubcategory
 {
-    public record Command(SubcategoryCreateModel Model) : IRequest<bool>;
+    public record Command(SubcategoryCreateModel Model) : IRequest<SubcategoryViewModel>;
 
-    public class Handler : IRequestHandler<Command, bool>
+    public class Handler : IRequestHandler<Command, SubcategoryViewModel>
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
@@ -25,7 +25,7 @@ public class CreateSubcategory
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<SubcategoryViewModel> Handle(Command request, CancellationToken cancellationToken)
         {
             if (!_categoryRepository.IsCategoryExists(request.Model.CategoryId))
                 throw new NotFoundException("Category can not be found!");
@@ -38,7 +38,7 @@ public class CreateSubcategory
 
             await _subcategoryRepository.CreateAsync(entity);
 
-            return true;
+            return _mapper.Map<SubcategoryViewModel>(entity);
         }
     }
 }

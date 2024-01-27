@@ -41,7 +41,8 @@ public class UpdateCategoryTests
         var result = await handler.Handle(new UpdateCategory.Command(updateModel), CancellationToken.None);
 
         // Assert
-        result.Should().BeTrue();
+        result.Should().NotBeNull();
+        result.Name.Should().Be(updateModel.Name);
     }
 
     [Fact]

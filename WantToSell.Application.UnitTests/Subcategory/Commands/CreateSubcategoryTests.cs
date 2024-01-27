@@ -37,6 +37,8 @@ public class CreateSubcategoryTests
             CategoryId = Guid.Parse("961bfa68-9f14-4ec2-b86a-b787102b1e7f")
         };
 
+        var category = _categoryMockRepository.Object.GetByIdAsync(model.CategoryId).Result;
+
         var handler =
             new CreateSubcategory.Handler(_mapper, _subcategoryMockRepository.Object, _categoryMockRepository.Object);
 
@@ -44,7 +46,9 @@ public class CreateSubcategoryTests
         var result = await handler.Handle(new CreateSubcategory.Command(model), CancellationToken.None);
 
         // Assert
-        result.Should().BeTrue();
+        result.Should().NotBeNull();
+        result.Name.Should().Be(model.Name);
+        result.CategoryName.Should().Be(category.Name);
     }
 
     [Fact]

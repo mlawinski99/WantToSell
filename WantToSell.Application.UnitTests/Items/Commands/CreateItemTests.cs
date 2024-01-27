@@ -44,6 +44,12 @@ public class CreateItemTests
         var result = await handler.Handle(new CreateItem.Command(model), CancellationToken.None);
 
         // Assert
-        result.Should().BeTrue();
+        result.Should().NotBeNull();
+        result.Name.Should().Be(model.Name);
+        result.Description.Should().Be(model.Description);
+        result.DateExpiredUtc.Date.Should().Be(model.DateExpiredUtc.Date);
+        result.CategoryId.Should().Be(model.CategoryId);
+        result.SubcategoryId.Should().Be(model.SubcategoryId);
+        result.Condition.Should().Be(model.Condition);
     }
 }

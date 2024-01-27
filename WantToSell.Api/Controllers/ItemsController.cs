@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WantToSell.Application.Features.Items.Commands;
 using WantToSell.Application.Features.Items.Models;
@@ -6,6 +7,7 @@ using WantToSell.Application.Features.Items.Queries;
 
 namespace WantToSell.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/items")]
 public class ItemsController : ControllerBase
@@ -17,24 +19,39 @@ public class ItemsController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet]
-    public async Task<List<ItemListModel>> GetList()
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(Guid id)
     {
-        return await _mediator.Send(new GetItemList.Query());
+        var result = await _mediator.Send(new GetItem.Query(id));
+
+        return Ok(result);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetList()
+    {
+        var result = await _mediator.Send(new GetItemList.Query());
+
+        return Ok(result);
     }
 
     [HttpPost]
     public async Task<IActionResult> Create(ItemCreateModel model)
     {
-        await _mediator.Send(new CreateItem.Command(model));
-        return Accepted();
+        var result = await _mediator.Send(new CreateItem.Command(model));
+
+        return CreatedAtAction(
+            nameof(Get),
+            new { id = result.Id },
+            result);
     }
 
     [HttpPut]
     public async Task<IActionResult> Update(ItemUpdateModel model)
     {
-        await _mediator.Send(new UpdateItem.Command(model));
-        return NoContent();
+        var result = await _mediator.Send(new UpdateItem.Command(model));
+
+        return Ok(result);
     }
 
     [HttpDelete("{id}")]

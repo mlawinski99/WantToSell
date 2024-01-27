@@ -33,7 +33,7 @@ public class GetSubcategoryListByCategoryIdTests
         var subcategoryList =
             await _subcategoryMockRepository.Object.GetListByCategoryIdAsync(
                 Guid.Parse("961bfa68-9f14-4ec2-b86a-b787102b1e7f"));
-        var mappedSubcategoryList = _mapper.Map<List<SubcategoryListModel>>(subcategoryList);
+        var mappedSubcategoryList = _mapper.Map<List<SubcategoryViewModel>>(subcategoryList);
         var handler = new GetSubcategoryListByCategoryId.Handler(_mapper, _subcategoryMockRepository.Object,
             _categoryMockRepository.Object);
 
@@ -54,7 +54,7 @@ public class GetSubcategoryListByCategoryIdTests
         var subcategoryList =
             await _subcategoryMockRepository.Object.GetListByCategoryIdAsync(
                 Guid.Parse("acc6d73a-85c2-4dff-aa78-e6e044ea638f"));
-        var mappedSubcategoryList = _mapper.Map<List<SubcategoryListModel>>(subcategoryList);
+        var mappedSubcategoryList = _mapper.Map<List<SubcategoryViewModel>>(subcategoryList);
         var handler = new GetSubcategoryListByCategoryId.Handler(_mapper, _subcategoryMockRepository.Object,
             _categoryMockRepository.Object);
 

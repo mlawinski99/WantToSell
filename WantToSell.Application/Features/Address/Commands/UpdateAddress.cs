@@ -5,44 +5,44 @@ using WantToSell.Application.Exceptions;
 using WantToSell.Application.Features.Address.Models;
 using WantToSell.Domain.Interfaces;
 
-namespace WantToSell.Application.Features.Address.Commands
+namespace WantToSell.Application.Features.Address.Commands;
+
+public class UpdateAddress
 {
-	public class UpdateAddress
-	{
-		public record Command(AddressUpdateModel Model) : IRequest<bool>;
+    public record Command(AddressUpdateModel Model) : IRequest<AddressDetailModel>;
 
-		public class Handler : IRequestHandler<Command, bool>
-		{
-			private readonly IAddressRepository _addressRepository;
-			private readonly IUserContext _userContext;
-			private readonly IMapper _mapper;
+    public class Handler : IRequestHandler<Command, AddressDetailModel>
+    {
+        private readonly IAddressRepository _addressRepository;
+        private readonly IMapper _mapper;
+        private readonly IUserContext _userContext;
 
-			public Handler(IAddressRepository addressRepository, 
-				IUserContext userContext,
-				IMapper mapper)
-			{
-				_addressRepository = addressRepository;
-				_userContext = userContext;
-				_mapper = mapper;
-			}
-			public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
-			{
-				var updateModel = await _addressRepository.GetByIdAsync(request.Model.Id);
+        public Handler(IAddressRepository addressRepository,
+            IUserContext userContext,
+            IMapper mapper)
+        {
+            _addressRepository = addressRepository;
+            _userContext = userContext;
+            _mapper = mapper;
+        }
 
-				if (updateModel == null)
-					throw new NotFoundException("Address can not be found!");
+        public async Task<AddressDetailModel> Handle(Command request, CancellationToken cancellationToken)
+        {
+            var updateModel = await _addressRepository.GetByIdAsync(request.Model.Id);
 
-				var userId = _userContext.UserId;
+            if (updateModel == null)
+                throw new NotFoundException("Address can not be found!");
 
-				if (updateModel.CreatedBy != userId)
-					throw new AccessDeniedException();
+            var userId = _userContext.UserId;
 
-				_mapper.Map(request.Model, updateModel);
-				
-				await _addressRepository.UpdateAsync(updateModel);
+            if (updateModel.CreatedBy != userId)
+                throw new AccessDeniedException();
 
-				return true;
-			}
-		}
-	}
+            _mapper.Map(request.Model, updateModel);
+
+            await _addressRepository.UpdateAsync(updateModel);
+
+            return _mapper.Map<AddressDetailModel>(updateModel);
+        }
+    }
 }
