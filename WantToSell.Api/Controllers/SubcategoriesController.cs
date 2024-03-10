@@ -7,7 +7,7 @@ using WantToSell.Application.Features.Subcategory.Queries;
 
 namespace WantToSell.Api.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Administrator")]
 [ApiController]
 [Route("api/subcategories")]
 public class SubcategoriesController : ControllerBase

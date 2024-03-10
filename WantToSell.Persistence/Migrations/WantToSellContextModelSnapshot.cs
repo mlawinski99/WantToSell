@@ -127,6 +127,50 @@ namespace WantToSell.Persistence.Migrations
                     b.ToTable("Items");
                 });
 
+            modelBuilder.Entity("WantToSell.Domain.StorageFile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreatedUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateModifiedUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Hash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MimeType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("StorageFiles");
+                });
+
             modelBuilder.Entity("WantToSell.Domain.Subcategory", b =>
                 {
                     b.Property<Guid>("Id")
@@ -173,6 +217,15 @@ namespace WantToSell.Persistence.Migrations
                     b.Navigation("Subcategory");
                 });
 
+            modelBuilder.Entity("WantToSell.Domain.StorageFile", b =>
+                {
+                    b.HasOne("WantToSell.Domain.Item", "Item")
+                        .WithMany("StorageFiles")
+                        .HasForeignKey("ItemId");
+
+                    b.Navigation("Item");
+                });
+
             modelBuilder.Entity("WantToSell.Domain.Subcategory", b =>
                 {
                     b.HasOne("WantToSell.Domain.Category", "Category")
@@ -189,6 +242,11 @@ namespace WantToSell.Persistence.Migrations
                     b.Navigation("Items");
 
                     b.Navigation("Subcategories");
+                });
+
+            modelBuilder.Entity("WantToSell.Domain.Item", b =>
+                {
+                    b.Navigation("StorageFiles");
                 });
 
             modelBuilder.Entity("WantToSell.Domain.Subcategory", b =>

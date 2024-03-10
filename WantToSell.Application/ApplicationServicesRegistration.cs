@@ -2,6 +2,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
+using WantToSell.Application.Services;
 
 namespace WantToSell.Application;
 
@@ -12,7 +13,8 @@ public static class ApplicationServicesRegistration
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-
+        services.AddScoped<IItemImagesService, ItemImagesService>();
+        
         RegisterValidators(services);
 
         services.AddFluentValidationAutoValidation();

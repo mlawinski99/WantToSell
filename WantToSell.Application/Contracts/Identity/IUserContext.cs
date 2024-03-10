@@ -1,4 +1,4 @@
-namespace WantToSell.Domain.Interfaces;
+namespace WantToSell.Application.Contracts.Identity;
 
 public interface IUserContext
 {

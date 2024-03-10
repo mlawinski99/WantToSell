@@ -10,7 +10,6 @@ public class SubcategoryProfile : Profile
     {
         CreateMap<Subcategory, SubcategoryViewModel>()
             .ForMember(d => d.CategoryName, o => o.MapFrom(s => s.Category.Name));
-        ;
         CreateMap<SubcategoryCreateModel, Subcategory>();
         CreateMap<SubcategoryUpdateModel, Subcategory>();
     }

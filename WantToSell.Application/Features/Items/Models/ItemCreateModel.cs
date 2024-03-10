@@ -1,4 +1,6 @@
-﻿namespace WantToSell.Application.Features.Items.Models;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace WantToSell.Application.Features.Items.Models;
 
 public class ItemCreateModel
 {
@@ -8,4 +10,5 @@ public class ItemCreateModel
     public string Condition { get; set; }
     public Guid CategoryId { get; set; }
     public Guid SubcategoryId { get; set; }
+    public List<IFormFile> Images { get; set; }
 }

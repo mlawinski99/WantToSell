@@ -1,4 +1,4 @@
-using WantToSell.Domain.Interfaces;
+using WantToSell.Application.Contracts.Identity;
 
 namespace WantToSell.Api.Middleware;
 
@@ -19,7 +19,7 @@ public class UserIdMiddleware
 
             userContext.UserId = Guid.Parse(userIdClaim);
         }
-        
+
         await _next(context);
     }
 }

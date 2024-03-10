@@ -7,71 +7,69 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using WantToSell.Application.Contracts.Identity;
 using WantToSell.Application.Models.Identity;
-using WantToSell.Domain.Interfaces;
 using WantToSell.Identity.DbContexts;
 using WantToSell.Identity.Models;
 using WantToSell.Identity.Services;
 
-namespace WantToSell.Identity
+namespace WantToSell.Identity;
+
+public static class IdentityServicesRegistration
 {
-	public static class IdentityServicesRegistration
-	{
-		public static IServiceCollection AddIdentityServicesRegistration(
-			this IServiceCollection services,
-			IConfiguration configuration)
-		{
-			services.Configure<TokenSettings>(configuration.GetSection("TokenSettings"));
+    public static IServiceCollection AddIdentityServicesRegistration(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.Configure<TokenSettings>(configuration.GetSection("TokenSettings"));
 
-			services.AddDbContext<WantToSellIdentityContext>(options =>
-				options.UseSqlServer(configuration.GetConnectionString("WantToSellDbConnectionString")));
+        services.AddDbContext<WantToSellIdentityContext>(options =>
+            options.UseSqlServer(configuration.GetConnectionString("WantToSellDbConnectionString")));
 
-			services.AddIdentity<ApplicationUser, IdentityRole>()
-				.AddEntityFrameworkStores<WantToSellIdentityContext>()
-				.AddDefaultTokenProviders();
-			
-			services.AddTransient<IAuthService, AuthService>();
-			services.AddTransient<IUserService, UserService>();
-			services.AddScoped<IUserContext, UserContext>();
+        services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<WantToSellIdentityContext>()
+            .AddDefaultTokenProviders();
 
-			services.AddAuthentication(options =>
-			{
-				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-			}).AddJwtBearer(options =>
-			{
-				options.TokenValidationParameters = new TokenValidationParameters
-				{
-					ValidateIssuerSigningKey = true,
-					ValidateIssuer = true,
-					ValidateAudience = true,
-					ValidateLifetime = true,
-					ClockSkew = TimeSpan.Zero,
-					ValidIssuer = configuration["TokenSettings:Issuer"],
-					ValidAudience = configuration["TokenSettings:Audience"],
-					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenSettings:Key"]))
-				};
-			});
+        services.AddTransient<IAuthService, AuthService>();
+        services.AddTransient<IUserService, UserService>();
+        services.AddScoped<IUserContext, UserContext>();
 
-			//services.AddDatabaseMigrationServices();
-			
-			return services;
-		}
-		
-		private static void AddDatabaseMigrationServices(this IServiceCollection services)
-		{
-			using var serviceProvider = services.BuildServiceProvider();
-			using var scope = serviceProvider.CreateScope();
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero,
+                ValidIssuer = configuration["TokenSettings:Issuer"],
+                ValidAudience = configuration["TokenSettings:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenSettings:Key"]))
+            };
+        });
 
-			var dbContext = scope.ServiceProvider.GetRequiredService<WantToSellIdentityContext>();
+        //services.AddDatabaseMigrationServices();
 
-			ApplyMigrations(dbContext);
-		}
+        return services;
+    }
 
-		private static void ApplyMigrations(WantToSellIdentityContext dbContext)
-		{
-			dbContext.Database.EnsureCreated();
+    private static void AddDatabaseMigrationServices(this IServiceCollection services)
+    {
+        using var serviceProvider = services.BuildServiceProvider();
+        using var scope = serviceProvider.CreateScope();
 
-			dbContext.Database.Migrate();
-		}
-	}
+        var dbContext = scope.ServiceProvider.GetRequiredService<WantToSellIdentityContext>();
+
+        ApplyMigrations(dbContext);
+    }
+
+    private static void ApplyMigrations(WantToSellIdentityContext dbContext)
+    {
+        dbContext.Database.EnsureCreated();
+
+        dbContext.Database.Migrate();
+    }
 }

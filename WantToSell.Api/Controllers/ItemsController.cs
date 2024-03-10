@@ -7,7 +7,7 @@ using WantToSell.Application.Features.Items.Queries;
 
 namespace WantToSell.Api.Controllers;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("api/items")]
 public class ItemsController : ControllerBase
@@ -36,7 +36,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(ItemCreateModel model)
+    public async Task<IActionResult> Create([FromForm]ItemCreateModel model)
     {
         var result = await _mediator.Send(new CreateItem.Command(model));
 
@@ -47,7 +47,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> Update(ItemUpdateModel model)
+    public async Task<IActionResult> Update([FromForm]ItemUpdateModel model)
     {
         var result = await _mediator.Send(new UpdateItem.Command(model));
 

@@ -7,7 +7,6 @@ using WantToSell.Application.Features.Address.Models;
 using WantToSell.Application.Features.Address.Queries;
 using WantToSell.Application.Mappings;
 using WantToSell.Application.UnitTests.Mocks;
-using WantToSell.Domain.Interfaces;
 using Xunit;
 
 namespace WantToSell.Application.UnitTests.Address.Queries;

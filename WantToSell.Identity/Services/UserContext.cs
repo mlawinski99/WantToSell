@@ -1,4 +1,4 @@
-using WantToSell.Domain.Interfaces;
+using WantToSell.Application.Contracts.Identity;
 
 namespace WantToSell.Identity.Services;
 

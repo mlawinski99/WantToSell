@@ -40,7 +40,7 @@ public class UpdateItemTests
             Condition = "New"
         };
 
-        var handler = new UpdateItem.Handler(_itemMockRepository.Object, _mapper);
+        var handler = new UpdateItem.Handler(_itemMockRepository.Object);
 
         // Act
         var result = await handler.Handle(new UpdateItem.Command(model), CancellationToken.None);
@@ -72,7 +72,7 @@ public class UpdateItemTests
             Condition = "New"
         };
 
-        var handler = new UpdateItem.Handler(_itemMockRepository.Object, _mapper);
+        var handler = new UpdateItem.Handler(_itemMockRepository.Object);
 
         // Act
         var exception = await Assert.ThrowsAsync<NotFoundException>(() =>

@@ -22,6 +22,7 @@ namespace WantToSell.Persistence
 				services.AddScoped<ISubcategoryRepository, SubcategoryRepository>();
 				services.AddScoped<IAddressRepository, AddressRepository>();
 				services.AddScoped<IItemRepository, ItemRepository>();
+				services.AddScoped<IStorageFileRepository, StorageFileRepository>();
 
 				return services;
 			}

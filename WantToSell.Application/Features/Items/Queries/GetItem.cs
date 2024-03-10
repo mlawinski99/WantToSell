@@ -1,8 +1,9 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using WantToSell.Application.Contracts.Persistence;
+using WantToSell.Application.Contracts.Storage;
 using WantToSell.Application.Exceptions;
 using WantToSell.Application.Features.Items.Models;
+using WantToSell.Application.Mappers.Items;
 
 namespace WantToSell.Application.Features.Items.Queries;
 
@@ -13,23 +14,24 @@ public class GetItem
     public class Handler : IRequestHandler<Query, ItemDetailModel>
     {
         private readonly IItemRepository _itemRepository;
-        private readonly IMapper _mapper;
+        private readonly ItemDetailModelMapper _itemDetailModelMapper;
 
-        public Handler(IMapper mapper,
-            IItemRepository itemRepository)
+        public Handler(IItemRepository itemRepository, IFilesService service)
         {
-            _mapper = mapper;
+             _itemDetailModelMapper = new ItemDetailModelMapper(service);
             _itemRepository = itemRepository;
         }
 
         public async Task<ItemDetailModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            var result = await _itemRepository.GetByIdAsync(request.Id);
+            var result = await _itemRepository.GetByIdWithImages(request.Id);
 
             if (result == null)
                 throw new NotFoundException("Item can not be found!");
 
-            return _mapper.Map<ItemDetailModel>(result);
+            var mappedResult = await _itemDetailModelMapper.Map(result);
+            
+            return mappedResult;
         }
     }
 }

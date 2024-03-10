@@ -12,4 +12,5 @@ public class Item : Entity
 	public virtual Guid? CategoryId { get; set; }
 	public virtual Subcategory? Subcategory { get; set; }
 	public virtual Guid? SubcategoryId { get; set; }
+	public virtual ICollection<StorageFile> StorageFiles { get; set; }
 }

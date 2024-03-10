@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
+using WantToSell.Application.Contracts.Identity;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
 using WantToSell.Application.Features.Address.Models;
-using WantToSell.Domain.Interfaces;
 
 namespace WantToSell.Application.Features.Address.Commands;
 

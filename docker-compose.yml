@@ -3,6 +3,10 @@ version: '3.4'
 services:
   wanttosell.api:
     image: ${DOCKER_REGISTRY-}wanttosellapi
+    environment:
+      - FILE_STORAGE_PATH=/app/data
+    volumes:
+      - ./host/directory:/app/data
     build:
       context: .
       dockerfile: WantToSell.Api/Dockerfile
