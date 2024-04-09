@@ -39,20 +39,17 @@ public class SubcategoriesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(SubcategoryCreateModel model)
     {
-        var result = await _mediator.Send(new CreateSubcategory.Command(model));
+        await _mediator.Send(new CreateSubcategory.Command(model));
 
-        return CreatedAtAction(
-            nameof(Get),
-            new { id = result.Id },
-            result);
+        return Ok();
     }
 
     [HttpPut]
     public async Task<IActionResult> Update(SubcategoryUpdateModel model)
     {
-        var result = await _mediator.Send(new UpdateSubcategory.Command(model));
+        await _mediator.Send(new UpdateSubcategory.Command(model));
 
-        return Ok(result);
+        return Ok();
     }
 
     [HttpDelete("{id}")]

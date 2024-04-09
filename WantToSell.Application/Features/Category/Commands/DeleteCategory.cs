@@ -4,7 +4,7 @@ using WantToSell.Application.Exceptions;
 
 namespace WantToSell.Application.Features.Category.Commands
 {
-	public class DeleteCategory
+	public static class DeleteCategory
 	{
 		public record Command(Guid Id) : IRequest<bool>;
 
@@ -20,7 +20,7 @@ namespace WantToSell.Application.Features.Category.Commands
 			{
 				var entity = await _categoryRepository.GetByIdAsync(request.Id);
 
-				if (entity == null)
+				if (entity is null)
 					throw new NotFoundException($"Category does not exist!");
 
 				await _categoryRepository.DeleteAsync(entity);

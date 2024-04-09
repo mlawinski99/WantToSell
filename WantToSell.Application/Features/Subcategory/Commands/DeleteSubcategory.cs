@@ -4,7 +4,7 @@ using WantToSell.Application.Exceptions;
 
 namespace WantToSell.Application.Features.Subcategory.Commands
 {
-	public class DeleteSubcategory
+	public static class DeleteSubcategory
 	{
 		public record Command(Guid Id) : IRequest<bool>;
 

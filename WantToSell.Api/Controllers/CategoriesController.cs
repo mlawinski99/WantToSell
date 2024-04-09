@@ -38,21 +38,18 @@ public class CategoriesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CategoryCreateModel model)
     {
-        var result = await _mediator.Send(new CreateCategory.Command(model));
+        await _mediator.Send(new CreateCategory.Command(model));
 
-        return CreatedAtAction(
-            nameof(Get),
-            new { id = result.Id },
-            result);
+        return Ok();
     }
 
     [HttpPut]
     public async Task<IActionResult> Update(CategoryUpdateModel model)
     {
-        var result = await _mediator.Send(new UpdateCategory.Command(model));
+        await _mediator.Send(new UpdateCategory.Command(model));
 
 
-        return Ok(result);
+        return Ok();
     }
 
     [HttpDelete("{id}")]

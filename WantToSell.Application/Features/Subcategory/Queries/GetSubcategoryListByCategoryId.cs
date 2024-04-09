@@ -1,26 +1,26 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
 using WantToSell.Application.Features.Subcategory.Models;
+using WantToSell.Application.Mappers.Subcategory;
 
 namespace WantToSell.Application.Features.Subcategory.Queries;
 
-public class GetSubcategoryListByCategoryId
+public static class GetSubcategoryListByCategoryId
 {
     public record Query(Guid CategoryId) : IRequest<List<SubcategoryViewModel>>;
 
     public class Handler : IRequestHandler<Query, List<SubcategoryViewModel>>
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IMapper _mapper;
+        private readonly SubcategoryViewModelMapper _subcategoryViewModelMapper;
         private readonly ISubcategoryRepository _subcategoryRepository;
 
-        public Handler(IMapper mapper,
+        public Handler(SubcategoryViewModelMapper subcategoryViewModelMapper,
             ISubcategoryRepository subcategoryRepository,
             ICategoryRepository categoryRepository)
         {
-            _mapper = mapper;
+            _subcategoryViewModelMapper = subcategoryViewModelMapper;
             _subcategoryRepository = subcategoryRepository;
             _categoryRepository = categoryRepository;
         }
@@ -30,9 +30,10 @@ public class GetSubcategoryListByCategoryId
             if (!_categoryRepository.IsCategoryExists(request.CategoryId))
                 throw new BadRequestException("Category does not exist!");
 
-            var result = await _subcategoryRepository.GetListByCategoryIdAsync(request.CategoryId);
-
-            return _mapper.Map<List<SubcategoryViewModel>>(result);
+            var list = await _subcategoryRepository.GetListByCategoryIdAsync(request.CategoryId);
+            var result = await _subcategoryViewModelMapper.Map(list);
+            
+            return result.ToList();
         }
     }
 }

@@ -30,12 +30,9 @@ public class AddressController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Guid>> Create(AddressCreateModel model)
     {
-        var result = await _mediator.Send(new CreateAddress.Command(model));
+        await _mediator.Send(new CreateAddress.Command(model));
 
-        return CreatedAtAction(
-            nameof(Get),
-            new { id = result.Id },
-            result);
+        return Ok();
     }
 
     [HttpPut]
@@ -49,7 +46,7 @@ public class AddressController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var result = await _mediator.Send(new DeleteAddress.Command(id));
+        await _mediator.Send(new DeleteAddress.Command(id));
 
         return NoContent();
     }

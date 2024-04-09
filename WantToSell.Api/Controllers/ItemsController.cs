@@ -1,9 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WantToSell.Application.Features.Item.Filters;
 using WantToSell.Application.Features.Items.Commands;
 using WantToSell.Application.Features.Items.Models;
 using WantToSell.Application.Features.Items.Queries;
+using WantToSell.Application.Models.Paging;
 
 namespace WantToSell.Api.Controllers;
 
@@ -28,9 +30,9 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetList()
+    public async Task<IActionResult> GetList([FromQuery] ItemFilter filter, [FromQuery] Pager pager)
     {
-        var result = await _mediator.Send(new GetItemList.Query());
+        var result = await _mediator.Send(new GetItemList.Query(filter, pager));
 
         return Ok(result);
     }
@@ -49,9 +51,9 @@ public class ItemsController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> Update([FromForm]ItemUpdateModel model)
     {
-        var result = await _mediator.Send(new UpdateItem.Command(model));
+        await _mediator.Send(new UpdateItem.Command(model));
 
-        return Ok(result);
+        return Ok();
     }
 
     [HttpDelete("{id}")]

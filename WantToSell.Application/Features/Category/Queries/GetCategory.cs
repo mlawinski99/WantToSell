@@ -1,35 +1,35 @@
-using AutoMapper;
 using MediatR;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
 using WantToSell.Application.Features.Category.Models;
+using WantToSell.Application.Mappers.Category;
 
 namespace WantToSell.Application.Features.Category.Queries;
 
-public class GetCategory
+public static class GetCategory
 {
     public record Query(Guid Id) : IRequest<CategoryViewModel>;
 
     public class Handler : IRequestHandler<Query, CategoryViewModel>
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IMapper _mapper;
+        private readonly CategoryViewModelMapper _categoryViewModelMapper;
 
-        public Handler(IMapper mapper,
+        public Handler(CategoryViewModelMapper categoryViewModelMapper,
             ICategoryRepository categoryRepository)
         {
-            _mapper = mapper;
+            _categoryViewModelMapper = categoryViewModelMapper;
             _categoryRepository = categoryRepository;
         }
 
         public async Task<CategoryViewModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            var result = await _categoryRepository.GetByIdAsync(request.Id);
+            var entity = await _categoryRepository.GetByIdAsync(request.Id);
 
-            if (result == null)
+            if (entity is null)
                 throw new NotFoundException("Category can not be found!");
 
-            return _mapper.Map<CategoryViewModel>(result);
+            return await _categoryViewModelMapper.Map(entity);
         }
     }
 }

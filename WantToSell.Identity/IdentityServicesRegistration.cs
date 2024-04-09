@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using WantToSell.Application.Contracts.Identity;
 using WantToSell.Application.Models.Identity;
+using WantToSell.Domain.Settings;
 using WantToSell.Identity.DbContexts;
 using WantToSell.Identity.Models;
 using WantToSell.Identity.Services;

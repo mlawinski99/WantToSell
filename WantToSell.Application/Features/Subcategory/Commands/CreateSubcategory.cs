@@ -1,31 +1,31 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using WantToSell.Application.Contracts.Persistence;
 using WantToSell.Application.Exceptions;
 using WantToSell.Application.Features.Subcategory.Models;
+using WantToSell.Application.Mappers.Subcategory;
 
 namespace WantToSell.Application.Features.Subcategory.Commands;
 
 public class CreateSubcategory
 {
-    public record Command(SubcategoryCreateModel Model) : IRequest<SubcategoryViewModel>;
+    public record Command(SubcategoryCreateModel Model) : IRequest<Unit>;
 
-    public class Handler : IRequestHandler<Command, SubcategoryViewModel>
+    public class Handler : IRequestHandler<Command, Unit>
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IMapper _mapper;
+        private readonly SubcategoryMapper _subcategoryMapper;
         private readonly ISubcategoryRepository _subcategoryRepository;
 
-        public Handler(IMapper mapper,
+        public Handler(SubcategoryMapper subcategoryMapper,
             ISubcategoryRepository subcategoryRepository,
             ICategoryRepository categoryRepository)
         {
-            _mapper = mapper;
+            _subcategoryMapper = subcategoryMapper;
             _subcategoryRepository = subcategoryRepository;
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<SubcategoryViewModel> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
             if (!_categoryRepository.IsCategoryExists(request.Model.CategoryId))
                 throw new NotFoundException("Category can not be found!");
@@ -33,12 +33,11 @@ public class CreateSubcategory
             if (_subcategoryRepository.IsSubcategoryNameExists(request.Model.Name))
                 throw new BadRequestException("Subcategory name already exists!");
 
-            var entity = _mapper.Map<Domain.Subcategory>(request.Model);
-            entity.Id = Guid.NewGuid();
+            var entity = await _subcategoryMapper.Map(request.Model, new Domain.Subcategory());
 
             await _subcategoryRepository.CreateAsync(entity);
 
-            return _mapper.Map<SubcategoryViewModel>(entity);
+            return Unit.Value;
         }
     }
 }

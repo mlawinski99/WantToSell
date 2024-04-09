@@ -1,5 +1,4 @@
-﻿using WantToSell.Application.Features.Address.Models;
-using WantToSell.Domain;
+﻿using WantToSell.Domain;
 
 namespace WantToSell.Application.Contracts.Persistence;
 

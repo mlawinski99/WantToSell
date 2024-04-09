@@ -42,6 +42,7 @@ public class WantToSellContext : DbContext
             switch (entry.State)
             {
                 case EntityState.Added:
+                    entry.Entity.Id = Guid.NewGuid();
                     entry.Entity.DateCreatedUtc = DateTime.UtcNow;
                     entry.Entity.DateModifiedUtc = null;
                     entry.Entity.CreatedBy = _userContext.UserId;

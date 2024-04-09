@@ -115,6 +115,9 @@ namespace WantToSell.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<Guid?>("SubcategoryId")
                         .HasColumnType("uniqueidentifier");
 

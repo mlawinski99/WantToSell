@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Http;
 using WantToSell.Application.Models.Files;
-using WantToSell.Domain;
 
 namespace WantToSell.Application.Contracts.Storage;
 

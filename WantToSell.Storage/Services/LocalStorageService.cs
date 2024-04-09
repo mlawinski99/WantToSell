@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Http;
 using WantToSell.Application.Contracts.Logging;
 using WantToSell.Application.Contracts.Storage;
 using WantToSell.Application.Extensions;
-using WantToSell.Application.Helpers;
 using WantToSell.Application.Models.Files;
 using WantToSell.Domain.Settings;
+using WantToSell.Storage.Helpers;
 
 namespace WantToSell.Storage.Services;
 

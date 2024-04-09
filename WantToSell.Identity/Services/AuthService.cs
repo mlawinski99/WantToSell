@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using WantToSell.Application.Contracts.Identity;
 using WantToSell.Application.Exceptions;
 using WantToSell.Application.Models.Identity;
+using WantToSell.Domain.Settings;
 using WantToSell.Identity.Models;
 
 
