@@ -2,6 +2,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using WantToSell.Api.Middleware;
 using WantToSell.Application;
+using WantToSell.Cache;
 using WantToSell.Identity;
 using WantToSell.Infrastructure;
 using WantToSell.Persistence;
@@ -21,6 +22,7 @@ builder.Services.AddInfrastructureServicesCollection();
 builder.Services.AddPersistenceServicesCollection(builder.Configuration);
 builder.Services.AddIdentityServicesRegistration(builder.Configuration);
 builder.Services.AddStorageServicesCollection();
+builder.Services.AddCacheHelpersCollection(builder.Configuration);
 
 builder.Services.AddSwaggerGen(opts => {
     opts.MapType(typeof(IFormFile), () => new OpenApiSchema() { Type = "file", Format = "binary" });

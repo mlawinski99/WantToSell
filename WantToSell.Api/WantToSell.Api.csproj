@@ -27,6 +27,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\WantToSell.Application\WantToSell.Application.csproj"/>
+        <ProjectReference Include="..\WantToSell.Cache\WantToSell.Cache.csproj" />
         <ProjectReference Include="..\WantToSell.Identity\WantToSell.Identity.csproj"/>
         <ProjectReference Include="..\WantToSell.Logger\WantToSell.Logger.csproj"/>
         <ProjectReference Include="..\WantToSell.Persistence\WantToSell.Persistence.csproj"/>

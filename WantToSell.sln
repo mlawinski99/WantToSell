@@ -44,6 +44,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WantToSell.Application.Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WantToSell.Storage", "WantToSell.Storage\WantToSell.Storage.csproj", "{21637220-DA4D-4750-8107-FFD66303C5FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WantToSell.Cache", "WantToSell.Cache\WantToSell.Cache.csproj", "{34FA3DE7-05EC-48B3-B043-5213E8C377F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{21637220-DA4D-4750-8107-FFD66303C5FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21637220-DA4D-4750-8107-FFD66303C5FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21637220-DA4D-4750-8107-FFD66303C5FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34FA3DE7-05EC-48B3-B043-5213E8C377F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34FA3DE7-05EC-48B3-B043-5213E8C377F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34FA3DE7-05EC-48B3-B043-5213E8C377F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34FA3DE7-05EC-48B3-B043-5213E8C377F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +109,7 @@ Global
 		{2539AE94-5E88-4BCD-AE8B-4115F2EDA7AD} = {2F688241-8A46-4230-AFF8-65B4C74C7C7A}
 		{1E9DDDCB-E1F7-4F41-BE7A-E40075A40D00} = {FC675C04-69DD-4E67-8574-11AD899C546B}
 		{21637220-DA4D-4750-8107-FFD66303C5FC} = {2F688241-8A46-4230-AFF8-65B4C74C7C7A}
+		{34FA3DE7-05EC-48B3-B043-5213E8C377F9} = {2F688241-8A46-4230-AFF8-65B4C74C7C7A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C210E5A0-4CDE-4FBD-8291-C8FC01E1DF63}

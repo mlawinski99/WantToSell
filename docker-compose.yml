@@ -13,6 +13,7 @@ services:
     ports:
         - "5002:80" 
     depends_on:
+        - wanttosell.redis
         - wanttosell.database  
     
   wanttosell.database:
@@ -25,5 +26,11 @@ services:
     environment:
             SA_PASSWORD: "S3cur3P@ssW0rd!"
             ACCEPT_EULA: "Y"
+  wanttosell.redis:
+    restart: always
+    image: "redis"
+    container_name: "WantToSellRedis"
+    ports:
+        - "6379:6379"
 volumes:
   WTS-volume:
