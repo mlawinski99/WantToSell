@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using Prometheus;
 using Serilog;
 using WantToSell.Api.Middleware;
 using WantToSell.Application;
@@ -24,8 +25,9 @@ builder.Services.AddIdentityServicesRegistration(builder.Configuration);
 builder.Services.AddStorageServicesCollection();
 builder.Services.AddCacheHelpersCollection(builder.Configuration);
 
-builder.Services.AddSwaggerGen(opts => {
-    opts.MapType(typeof(IFormFile), () => new OpenApiSchema() { Type = "file", Format = "binary" });
+builder.Services.AddSwaggerGen(opts =>
+{
+    opts.MapType(typeof(IFormFile), () => new OpenApiSchema { Type = "file", Format = "binary" });
 });
 
 builder.Services.AddCors(options =>
@@ -91,11 +93,13 @@ app.UseSerilogRequestLogging();
 
 app.UseCors("AllowAll");
 
+app.UseHttpMetrics();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMiddleware<UserIdMiddleware>();
 
 app.MapControllers();
+app.MapMetrics();
 
 app.Run();
