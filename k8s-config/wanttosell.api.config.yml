@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wanttosell
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wanttosell-api-config
+  namespace: wanttosell
+data:
+  FILE_STORAGE_PATH: "/app/data"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wanttosell-api
+  namespace: wanttosell
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wanttosell-api
+  template:
+    metadata:
+      labels:
+        app: wanttosell-api
+    spec:
+      containers:
+      - name: wanttosell-api
+        image: lmat9/wanttosell-api:cachefix
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: wanttosell-api-config
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "2"
+          limits:
+            memory: "2Gi"
+            cpu: "2"
+        volumeMounts:
+        - mountPath: /app/data
+          name: data-volume
+      volumes:
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: wanttosell-api-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wanttosell-api
+  namespace: wanttosell
+spec:
+  selector:
+    app: wanttosell-api
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wanttosell-api-pvc
+  namespace: wanttosell
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
