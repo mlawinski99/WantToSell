@@ -1,0 +1,12 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ auction.name }}</mat-card-title>
+ <img mat-card-image src="https://st4.depositphotos.com/1842549/20771/i/450/depositphotos_207719928-stock-photo-test-icon.jpg" alt="Image of auction item">
+  </mat-card-header>
+
+  <mat-card-content>
+    <p>{{ auction.description }}</p>
+    <p><strong>Condition:</strong> {{ auction.condition }}</p>
+    <p><strong>Expires:</strong> {{ auction.dateExpiredUtc | date }}</p>
+  </mat-card-content>
+</mat-card>

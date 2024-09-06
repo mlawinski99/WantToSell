@@ -1,0 +1,11 @@
+<mat-card class="auction-card" (click)="viewAuctionDetails(auction.id)">
+  <mat-card-header>
+    <div class="mat-card-header-text">
+      <h3 class="mat-card-title">{{ auction.name }}</h3>
+    </div>
+  </mat-card-header>
+<img mat-card-image src="https://st4.depositphotos.com/1842549/20771/i/450/depositphotos_207719928-stock-photo-test-icon.jpg" alt="Image of auction item">
+  <mat-card-content>
+    <h3>${{ auction.price }}</h3>
+  </mat-card-content>
+</mat-card>

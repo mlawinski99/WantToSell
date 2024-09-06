@@ -1,0 +1,25 @@
+.auction-card {
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.auction-image {
+  background-size: cover;
+  background-position: center;
+}
+
+.condition, .expiry {
+  margin-top: 10px;
+}
+
+mat-card-title, mat-card-subtitle {
+  color: #424242;
+}
+
+mat-card-content {
+  font-size: 16px;
+}
+
+mat-button {
+  margin-right: 8px;
+}

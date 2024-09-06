@@ -1,0 +1,56 @@
+<form [formGroup]="auctionForm" (ngSubmit)="onSubmit()" class="auction-form">
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <input matInput formControlName="description">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Date</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="dateExpiredUtc" placeholder="Choose a date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Time</mat-label>
+    <input matInput type="time" formControlName="timeExpiredUtc">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Condition</mat-label>
+    <input matInput formControlName="condition">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Category</mat-label>
+    <input matInput formControlName="categoryId">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Subcategory</mat-label>
+    <input matInput formControlName="subcategoryId">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Price</mat-label>
+    <input matInput type="number" formControlName="price">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Images</mat-label>
+    <div matInput (click)="fileInput.click()" style="display: flex; align-items: center;">
+      <input matInput [value]="fileNames || 'Select files...'" readonly style="flex: 1; cursor: pointer;" />
+      <button mat-icon-button matSuffix (click)="fileInput.click()" type="button">
+        <mat-icon>attach_file</mat-icon>
+      </button>
+    </div>
+    <input type="file" id="images" style="display: none;" (change)="handleFileInput($event)" multiple #fileInput />
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="!auctionForm.valid">Submit</button>
+</form>

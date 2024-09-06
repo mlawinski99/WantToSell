@@ -1,0 +1,6 @@
+<div class="list-container">
+@for (category of categoriesList; track category.id)
+{
+<app-categories-item [category]="category"></app-categories-item>
+}
+</div>

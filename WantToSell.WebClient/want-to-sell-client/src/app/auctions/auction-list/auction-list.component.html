@@ -1,0 +1,6 @@
+<div class="list-container">
+@for (auction of auctionList.items; track auction.id)
+{
+  <app-auction-item [auction]="auction"></app-auction-item>
+}
+</div>
