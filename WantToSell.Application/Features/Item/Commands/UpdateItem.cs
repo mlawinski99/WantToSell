@@ -34,7 +34,7 @@ public static class UpdateItem
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var entity = await _itemRepository.GetByIdWithImages(request.Model.Id);
+            var entity = await _itemRepository.GetByIdWithDetails(request.Model.Id);
             
             if (entity is null)
                 throw new NotFoundException("Item can not be found!");

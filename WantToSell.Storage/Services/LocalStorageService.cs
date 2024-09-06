@@ -12,7 +12,7 @@ public class LocalStorageService :  IFilesService
 {
     private static readonly string _storagePath = ConfigurationSettings.LocalStoragePath;
     private readonly IApplicationLogger<LocalStorageService> _logger;
-
+    
     public LocalStorageService(IApplicationLogger<LocalStorageService> logger)
     {
         _logger = logger;

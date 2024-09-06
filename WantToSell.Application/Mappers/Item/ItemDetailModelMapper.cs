@@ -12,21 +12,21 @@ public class ItemDetailModelMapper : IMapper<Domain.Item, ItemDetailModel>
     {
         _filesService = filesService;
     }
-    
+
     public async Task<ItemDetailModel> Map(Domain.Item entity, ItemDetailModel? resultModel = null)
     {
         var images = await _filesService.ReadFilesAsync(entity.StorageFiles.Select(s => s.FileName));
-        
-       return new ItemDetailModel()
+
+        return new ItemDetailModel
         {
             Id = entity.Id,
             Name = entity.Name,
             Description = entity.Description,
             DateExpiredUtc = entity.DateExpiredUtc,
             Condition = entity.Condition,
-            CategoryId = entity.CategoryId,
-            SubcategoryId = entity.SubcategoryId,
-            Images = images.Select(s => s.FormFile).ToList(),
+            Category = entity.Category.Name,
+            Subcategory = entity.Subcategory.Name,
+            Images = images.Select(s => s.FormFile).ToList()
         };
     }
 }

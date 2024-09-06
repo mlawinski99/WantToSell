@@ -7,14 +7,15 @@ using WantToSell.Application.Mappers.Address;
 
 namespace WantToSell.Application.Features.Address.Commands;
 
-public static class CreateAddress
+public static class
+    CreateAddress
 {
     public record Command(AddressCreateModel Model) : IRequest<Unit>;
 
     public class Handler : IRequestHandler<Command, Unit>
     {
-        private readonly IAddressRepository _addressRepository;
         private readonly AddressMapper _addressMapper;
+        private readonly IAddressRepository _addressRepository;
         private readonly IUserContext _userContext;
 
         public Handler(AddressMapper addressMapper,

@@ -6,12 +6,14 @@ public static class EnumerableExtensions
     {
         return !source.Contains(value);
     }
-    
+
+    public static bool IsEmpty<T>(this IEnumerable<T> source)
+    {
+        return !source.Any();
+    }
+
     public static void SetProperty<T>(this IEnumerable<T> items, Action<T> updateAction)
     {
-        foreach (var item in items)
-        {
-            updateAction(item);
-        }
+        foreach (var item in items) updateAction(item);
     }
 }

@@ -13,11 +13,13 @@ public class ItemRepository : GenericRepository<Item>, IItemRepository
     {
     }
 
-    public async Task<Item> GetByIdWithImages(Guid id)
+    public async Task<Item> GetByIdWithDetails(Guid id)
     {
         return await _context.Items
             .AsNoTracking()
             .Include(s => s.StorageFiles)
+            .Include(x => x.Category)
+            .Include(x => x.Subcategory)
             .FirstOrDefaultAsync(s => s.Id == id);
     }
 

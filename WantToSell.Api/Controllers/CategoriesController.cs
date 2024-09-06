@@ -1,13 +1,13 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WantToSell.Application.Features.Category.Commands;
 using WantToSell.Application.Features.Category.Models;
 using WantToSell.Application.Features.Category.Queries;
+using WantToSell.Application.Models.Paging;
 
 namespace WantToSell.Api.Controllers;
 
-[Authorize(Roles = "Administrator")]
+//[Authorize(Roles = "Administrator")]
 [ApiController]
 [Route("api/categories")]
 public class CategoriesController : ControllerBase
@@ -28,7 +28,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetList()
+    public async Task<IActionResult> GetList([FromQuery] Pager pager)
     {
         var result = await _mediator.Send(new GetCategoryList.Query());
 

@@ -46,7 +46,7 @@ public class AddressController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        await _mediator.Send(new DeleteAddress.Command(id));
+            await _mediator.Send(new DeleteAddress.Command(id));
 
         return NoContent();
     }
